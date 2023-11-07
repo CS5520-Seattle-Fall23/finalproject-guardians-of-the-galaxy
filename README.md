@@ -1,5 +1,11 @@
 # App Name: Posi Life
 
+# Team Member: 
+
+- Yiwei Zha
+- Zhen Sun
+- Zhenziye Lin
+
 ## 1 Purpose
 
 The "PosiLife" Healthy Lifestyle Mobile App aims to redefine how women approach and manage their personal health. In a world increasingly focused on physical and mental well-being, the application offers an integrated solution that not only tracks health metrics but also ensures sustained motivation through positive reinforcement and personalized insights. Also, the menstrual cycle period may always be a big problem for females. The applications are able to support females with period tracking and reminders to help them better organize the period. By leveraging the Flutter framework, the app promises a seamless experience across different devices, allowing users to monitor and enhance their health trajectory.
@@ -233,4 +239,3 @@ https://www.mermaidchart.com/app/projects/9f0218a4-17e6-4865-8737-10a6b357de27/d
 | 9  | 9.1    | Menstrual Cycle Tracking | Help users tracking period cycles | Health Tracking | High | TC-14 |
 | 10 | 10.1   | Notification System      | Inform users of reminders | User Engagement | High | TC-15 |
 | 11 | 11.1   | Data Security            | Ensure user data is protected | Security | High | TC-16 |
-
