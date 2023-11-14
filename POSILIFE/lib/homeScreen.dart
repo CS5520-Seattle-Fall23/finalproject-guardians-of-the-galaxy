@@ -1,7 +1,15 @@
-
+import 'package:complete/dietIntakeScreen.dart';
+import 'package:complete/sleepTimeScreen.dart';
+import 'package:complete/waterIntakeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart'; // For using Cupertino icons
 
+class FunctionType {
+  static const FunctionTypeWater = 1;
+  static const FunctionTypeSleep = 2;
+  static const FunctionTypeDiet = 3;
+  static const FunctionTypeWellness = 4;
+}
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -30,10 +38,14 @@ class HomeScreen extends StatelessWidget {
               child: ListView(
                 padding: EdgeInsets.all(20),
                 children: [
-                  _buildFeatureButton(context, 'Water', Icons.local_drink),
-                  _buildFeatureButton(context, 'Sleep', Icons.nights_stay),
-                  _buildFeatureButton(context, 'Diet', Icons.restaurant_menu),
-                  _buildFeatureButton(context, 'Wellness', Icons.spa),
+                  _buildFeatureButton(context, 'Water', Icons.local_drink,
+                      FunctionType.FunctionTypeWater),
+                  _buildFeatureButton(context, 'Sleep', Icons.nights_stay,
+                      FunctionType.FunctionTypeSleep),
+                  _buildFeatureButton(context, 'Diet', Icons.restaurant_menu,
+                      FunctionType.FunctionTypeDiet),
+                  _buildFeatureButton(context, 'Wellness', Icons.spa,
+                      FunctionType.FunctionTypeWellness),
                 ],
               ),
             ),
@@ -68,13 +80,18 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFeatureButton(BuildContext context, String label, IconData icon) {
+  Widget _buildFeatureButton(
+      BuildContext context, String label, IconData icon, int functionType) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: ElevatedButton.icon(
         icon: Icon(icon, color: Color.fromARGB(255, 247, 243, 243)),
-        label: Text(label, style: TextStyle(color: Color.fromARGB(255, 247, 243, 243))),
+        label: Text(label,
+            style: TextStyle(color: Color.fromARGB(255, 247, 243, 243))),
         onPressed: () {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => _pageRoute(functionType)),
+          );
           // Handle navigation or feature activation
         },
         style: ElevatedButton.styleFrom(
@@ -88,5 +105,17 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-}
 
+  Widget _pageRoute(int functionType) {
+    switch (functionType) {
+      case FunctionType.FunctionTypeWater:
+        return WaterIntakeScreen();
+      case FunctionType.FunctionTypeSleep:
+        return SleepTimeScreen();
+      case FunctionType.FunctionTypeDiet:
+        return DietIntakeScreen();
+      default:
+        return Container();
+    }
+  }
+}

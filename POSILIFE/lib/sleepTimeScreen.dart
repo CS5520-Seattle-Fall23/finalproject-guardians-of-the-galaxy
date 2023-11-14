@@ -1,15 +1,14 @@
-import 'package:complete/waterIntakeRecordScreen.dart';
+import 'package:complete/sleepTimeRecordScreen.dart';
+import 'package:complete/sleepTimeReminderScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'homeScreen.dart';
-import 'waterIntakeReminderScreen.dart';
 
-
-class WaterIntakeScreen extends StatefulWidget {
+class SleepTimeScreen extends StatefulWidget {
   @override
-  _WaterIntakeScreenState createState() => _WaterIntakeScreenState();
+  _SleepTimeScreenState createState() => _SleepTimeScreenState();
 }
-class _WaterIntakeScreenState extends State<WaterIntakeScreen> {
+class _SleepTimeScreenState extends State<SleepTimeScreen> {
   bool isOunces = false; // State variable to track unit toggle
   @override
   Widget build(BuildContext context) {
@@ -37,23 +36,39 @@ class _WaterIntakeScreenState extends State<WaterIntakeScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            // The title section with "Today" and water intake statistics will be here
+            // The title section with "Today" and SleepTime intake statistics will be here
                         Padding(
               padding: EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    'Your water intake today:',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 8),
+
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      // TODO: Add logic to display the water intake value(backend integration)
                       Text(
-                        '700 ml',
+                        'Your SleepTime today:',
+                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(width: 20),
+                      // TODO: Add logic to display the SleepTime intake value(backend integration)
+                      Text(
+                        '7.5 h',
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        'Your SleepTime goal:',
+                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(width: 20),
+                      // TODO: Add logic to display the SleepTime intake value(backend integration)
+                      Text(
+                        '10 h',
                         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -71,12 +86,12 @@ class _WaterIntakeScreenState extends State<WaterIntakeScreen> {
                 animation: true,
                 percent: 0.7, // Assuming 70% of the goal is completed
                 center: Text(
-                  //TODO: Add logic to display the water intake percentage(backend integration)
-                  "70%",
+                  //TODO: Add logic to display the SleepTime intake percentage(backend integration)
+                  "75%",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
                 ),
                 footer: Text(
-                  "of your goal!",
+                  "75% of your goal!",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
                 ),
                 circularStrokeCap: CircularStrokeCap.round,
@@ -84,28 +99,42 @@ class _WaterIntakeScreenState extends State<WaterIntakeScreen> {
               ),
             ),
 
-            // The button to add water intake record will go here
-                        Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => WaterIntakeRecordScreen(), // Replace with your actual water intake record screen widget
-                    ),
-                  );
-                },
-                icon: Icon(Icons.add, color: Colors.white),
-                label: Text("Water +", style: TextStyle(color: Colors.white)),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0),
+            // The button to add SleepTime intake record will go here
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SleepTimeRecordScreen()),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.blue, // 背景色
+                  border: Border.all(
+                    color: Colors.black, // 边框颜色
+                    width: 2.0, // 边框宽度
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                  borderRadius: BorderRadius.circular(18.0), // 圆角
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Record Sleep Time',
+                        style: TextStyle(
+                          color: Colors.black, // 文本颜色
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ), // 标签
+                      Icon(Icons.add), // 图标
+                    ],
+                  ),
                 ),
               ),
-
             ),
 
             // The reminder section will go here
@@ -113,10 +142,10 @@ class _WaterIntakeScreenState extends State<WaterIntakeScreen> {
               padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
               child: InkWell(
                 onTap: () {
-                  // Navigate to waterIntakereminderScreen
+                  // Navigate to SleepTimeIntakereminderScreen
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => WaterIntakeReminderScreen()),
+                    MaterialPageRoute(builder: (context) => SleepTimeReminderScreen()),
                   );
                 },
                 child: Row(
@@ -124,38 +153,13 @@ class _WaterIntakeScreenState extends State<WaterIntakeScreen> {
                     Icon(Icons.alarm, color: Colors.blue),
                     SizedBox(width: 8),
                     Text(
-                      'Remind me to drink water!',
+                      'Remind me to go to bed!',
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
               ),
             ),
-
-            // The toggle for units (oz/ml) will go here
-            Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              isOunces ? 'Your water intake today in ounces:' : 'Your water intake today:',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
-            Switch(
-              value: isOunces,
-              onChanged: (value) {
-                setState(() {
-                  isOunces = value;
-                  // TODO: Add logic to convert the water intake value between ml and oz
-                });
-              },
-              activeTrackColor: Colors.lightBlueAccent,
-              activeColor: Colors.blue,
-            ),
-          ],
-        ),
-      ),
           ],
         ),
       ),
