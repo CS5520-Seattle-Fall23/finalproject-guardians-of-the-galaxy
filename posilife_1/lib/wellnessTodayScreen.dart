@@ -23,6 +23,14 @@ class _WellnessTodayScreen extends State<WellnessTodayScreen> {
     }
   }
 
+  int _selectedIndex = 0; // a variable to track the selected button index
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index; // update index when selected
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -199,7 +207,9 @@ class _WellnessTodayScreen extends State<WellnessTodayScreen> {
               backgroundColor: Colors.black,
             ),
           ],
+          currentIndex: _selectedIndex,
           selectedItemColor: const Color.fromARGB(255, 238, 107, 151),
+          onTap: _onItemTapped, 
         ),
     );
   }
