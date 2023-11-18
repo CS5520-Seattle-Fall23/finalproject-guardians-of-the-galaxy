@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "558771804661",
+    "project_id": "posilife-87935",
+    "storage_bucket": "posilife-87935.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558771804661:android:13f662fa309be5f947e8bc",
+        "android_client_info": {
+          "package_name": "com.example.complete"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxAcNrrOy_0hrtqj2FcKvqGJLp5n3GS5Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
