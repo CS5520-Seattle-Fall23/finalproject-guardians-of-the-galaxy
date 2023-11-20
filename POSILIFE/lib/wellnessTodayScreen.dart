@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'WeightRecordReminderScreen.dart';
 import 'weightRecordScreen.dart';
 import 'weightComparisonScreen.dart';
+import 'homeScreen.dart';
 
 class WellnessTodayScreen extends StatefulWidget {
   @override
@@ -46,10 +47,10 @@ class _WellnessTodayScreen extends State<WellnessTodayScreen> {
               if (Navigator.of(context).canPop()) {
                 Navigator.of(context).pop(); // Pop the current screen off the stack
               } else {
-                // Navigator.of(context).pushReplacement(
-                // // TODO: Push the home screen onto the stack without the ability to navigate back to the current screen
-                // MaterialPageRoute(builder: (context) => HomeScreen()),
-                // );
+                Navigator.of(context).pushReplacement(
+                // TODO: Push the home screen onto the stack without the ability to navigate back to the current screen
+                MaterialPageRoute(builder: (context) => HomeScreen()),
+                );
               }
             },
           )
