@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'sleepTimeScreen.dart';
+import "../account/accountInfoScreen.dart";
+import '../bottomNavigationBar.dart';
+import '../homeScreen.dart';
+import '../period/periodMainScreen.dart';
+import '../report/reportHomeScreen.dart';
 
 class SleepTimeRecordScreen extends StatefulWidget {
   @override
@@ -9,6 +13,7 @@ class SleepTimeRecordScreen extends StatefulWidget {
 
 class _SleepTimeRecordScreenState extends State<SleepTimeRecordScreen> {
   int quantity = 7;
+  int _selectedIndex = 0;
 
   void incrementQuantity() {
     setState(() {
@@ -23,7 +28,25 @@ class _SleepTimeRecordScreenState extends State<SleepTimeRecordScreen> {
       });
     }
   }
-
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    switch (index) {
+      case 0:
+        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        break;
+      case 1:
+        Navigator.push(context, MaterialPageRoute(builder: (context) => PeriodCalendarPage()));
+        break;
+      case 2:
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ReportHomeScreen()));
+        break;
+      case 3:
+        Navigator.push(context, MaterialPageRoute(builder: (context) => AccountInfoPage()));
+        break;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,31 +152,11 @@ class _SleepTimeRecordScreenState extends State<SleepTimeRecordScreen> {
         ),
       ),
       // The bottom navigation bar will be added here
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.check_circle_outline),
-            label: 'TODAY',
-            backgroundColor: Colors.black,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.invert_colors),
-            label: 'PERIOD',
-            backgroundColor: Colors.black,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bar_chart),
-            label: 'REPORT',
-            backgroundColor: Colors.black,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'ACCOUNT',
-            backgroundColor: Colors.black,
-          ),
-        ],
-        selectedItemColor: Color.fromARGB(255, 238, 107, 151),
-      ),
+      bottomNavigationBar: CustomBottomNavigationBar(
+      selectedIndex: _selectedIndex,
+      onItemTapped: _onItemTapped,
+     ),
     );
   }
 }
+
