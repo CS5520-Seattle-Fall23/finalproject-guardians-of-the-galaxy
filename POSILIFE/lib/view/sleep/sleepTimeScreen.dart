@@ -4,6 +4,13 @@ import 'package:complete/view/sleep/sleepTimeCalendarScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import '../homeScreen.dart';
+import"../account/accountInfoScreen.dart";
+import '../bottomNavigationBar.dart';
+import '../period/periodMainScreen.dart';
+import '../report/reportHomeScreen.dart';
+import 'sleepTimeGoalScreen.dart';
+
+
 
 class SleepTimeScreen extends StatefulWidget {
   @override
@@ -20,13 +27,13 @@ class _SleepTimeScreenState extends State<SleepTimeScreen> {
         Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
         break;
       case 1:
-        Navigator.pushNamed(context, '/periodRecordScreen');
+        Navigator.push(context, MaterialPageRoute(builder: (context) => PeriodCalendarPage()));
         break;
       case 2:
-        Navigator.pushNamed(context, '/reportHomeScreen');
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ReportHomeScreen()));
         break;
       case 3:
-        Navigator.pushNamed(context, '/accountInfoScreen');
+        Navigator.push(context, MaterialPageRoute(builder: (context) => AccountInfoPage()));
         break;
     }
   }
@@ -110,10 +117,10 @@ class _SleepTimeScreenState extends State<SleepTimeScreen> {
               ),
             ),
 
-            // The button to add water intake record will go here
-                        Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: ElevatedButton.icon(
+            Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton.icon(
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
@@ -122,17 +129,33 @@ class _SleepTimeScreenState extends State<SleepTimeScreen> {
                   );
                 },
                 icon: Icon(Icons.add, color: Colors.white),
-                label: Text("Record Sleep Time", style: TextStyle(color: Colors.white)),
+                label: Text("Sleep Time", style: TextStyle(color: Colors.white)),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
+                  backgroundColor: Colors.blue[300],
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18.0),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                 ),
               ),
-
-            ),
+              ElevatedButton.icon(
+                onPressed: () {
+                  // Navigate to SleepTimeGoalScreen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SleepTimeGoalScreen()),
+                  );
+                },
+                icon: Icon(Icons.flag, color: Colors.white), // Use an appropriate icon
+                label: Text('Sleep Time Goal', style: TextStyle(color: Colors.white)), // Replace with appropriate text
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue[300],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                  ),
+                ),
+              ),
+            ],
+          ),
             // Water Intake Calendar
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -152,7 +175,7 @@ class _SleepTimeScreenState extends State<SleepTimeScreen> {
               child: Center(
                 child: InkWell(
                 onTap: () {
-                  // Navigate to waterIntakereminderScreen
+                  // Navigate to SleepTimereminderScreen
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => SleepTimeReminderScreen()),
@@ -180,61 +203,5 @@ class _SleepTimeScreenState extends State<SleepTimeScreen> {
       onItemTapped: _onItemTapped,
      ),
     );
-  }
-}
-// The custom widget for the BottomNavigationBar
-class CustomBottomNavigationBar extends StatelessWidget {
-  final int selectedIndex;
-  final Function(int) onItemTapped;
-
-  const CustomBottomNavigationBar({
-    Key? key,
-    required this.selectedIndex,
-    required this.onItemTapped,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BottomAppBar(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: List.generate(4, (index) {
-          return InkWell(
-            onTap: () => onItemTapped(index),
-            splashColor: Colors.transparent, // Remove splash effect
-            highlightColor: Colors.transparent, // Remove highlight effect
-            child: AnimatedContainer(
-              duration: Duration(milliseconds: 300),
-              height: kBottomNavigationBarHeight,
-              width: MediaQuery.of(context).size.width / 4,
-              decoration: BoxDecoration(
-                color: selectedIndex == index ? Colors.pink.shade200 : Colors.white,
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: Icon(
-                getIcon(index),
-                color: selectedIndex == index ? Colors.white : Colors.grey,
-              ),
-            ),
-          );
-        }),
-      ),
-      color: Colors.white,
-    );
-  }
-
-  IconData getIcon(int index) {
-    switch (index) {
-      case 0:
-        return Icons.calendar_view_day;
-      case 1:
-        return Icons.calendar_month;
-      case 2:
-        return Icons.bar_chart;
-      case 3:
-        return Icons.account_box;
-      default:
-        return Icons.error;
-    }
   }
 }
