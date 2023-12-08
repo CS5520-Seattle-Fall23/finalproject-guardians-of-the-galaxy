@@ -1,6 +1,13 @@
+import 'package:complete/view/wellness/wellnessTodayScreen.dart';
 import 'package:flutter/material.dart';
 import '../account/accountInfoScreen.dart';
 import '../bottomNavigationBar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../homeScreen.dart';
+import '../period/periodMainScreen.dart';
+import '../report/reportHomeScreen.dart';
+
 
 
 class WeightRecordScreen extends StatefulWidget {
@@ -10,36 +17,80 @@ class WeightRecordScreen extends StatefulWidget {
 class _WeightRecordScreenState extends State<WeightRecordScreen> {
   int _selectedIndex = 0;
   final TextEditingController _weightAmountController = TextEditingController();
-  bool isKg = false; // State variable to track unit toggle
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
     switch (index) {
       case 0:
-        Navigator.pushNamed(context, '/weightScreen');
+        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
         break;
       case 1:
-        Navigator.pushNamed(context, '/periodRecordScreen');
+        Navigator.push(context, MaterialPageRoute(builder: (context) => PeriodCalendarPage()));
         break;
       case 2:
-        Navigator.pushNamed(context, '/reportHomeScreen');
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ReportHomeScreen()));
         break;
       case 3:
         Navigator.push(context, MaterialPageRoute(builder: (context) => AccountInfoPage()));
         break;
     }
   }
-  void _confirmweight() {
-    // Logic to confirm weightt goes here
-    // Convert to Kg if necessary and send to backend or local storage
-    int weight = int.parse(_weightAmountController.text);
-    if (isKg) {
-      // Convert to kg if needed
-      weight = (weight * 0.453592).round(); // 1lbs = 0.453592kg
+   void _confirmWeight() async {
+  try {
+    int newWeight = int.parse(_weightAmountController.text);
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+
+    // Fetch existing weight and height data
+    DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('Users').doc(userId).get();
+    int lastWeight = 0;
+    int height = 0; // Initialize height
+    bool hasWellnessRecord = false;
+
+    if (userDoc.exists) {
+      lastWeight = _parseInt(userDoc['Weight']);
+      height = _parseInt(userDoc['Height']); // Fetch height from Users collection
     }
-    print('weight: $weight kg'); // Replace with actual logic
+
+    DocumentSnapshot wellnessDoc = await FirebaseFirestore.instance.collection('Wellness').doc(userId).get();
+    hasWellnessRecord = wellnessDoc.exists;
+
+    if (hasWellnessRecord) {
+      // If there's existing data in Wellness, use it as lastWeight
+      lastWeight = _parseInt(wellnessDoc['Weight']);
+    }
+
+    // Update weight and height in Wellness collection
+    await FirebaseFirestore.instance.collection('Wellness').doc(userId).set({
+      'Weight': newWeight,
+      'lastWeight': lastWeight,
+      'Height': height, // Set height in Wellness
+    }, SetOptions(merge: true));
+
+    // Update weight in Users collection
+    await FirebaseFirestore.instance.collection('Users').doc(userId).set({
+      'Weight': newWeight,
+    }, SetOptions(merge: true));
+
+    // Clear the input field and navigate
+    _weightAmountController.clear();
+    Navigator.push(context, MaterialPageRoute(builder: (context) => WellnessTodayScreen()));
+
+    // Show confirmation message
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('Weight updated to $newWeight kg'),
+    ));
+  } catch (e) {
+    print('Error updating weight: $e');
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('Failed to update weight'),
+    ));
   }
+}
+
+int _parseInt(dynamic value) {
+  return (value is String) ? int.tryParse(value) ?? 0 : (value ?? 0);
+}
 
   @override
   Widget build(BuildContext context) {
@@ -71,12 +122,12 @@ class _WeightRecordScreenState extends State<WeightRecordScreen> {
                   borderRadius: BorderRadius.circular(30),
                   borderSide: BorderSide.none,
                 ),
-                suffixText: isKg ? 'lbs' : 'kg',
+                suffixText: 'kg',
               ),
             ),
             SizedBox(height: 16),
             ElevatedButton(
-              onPressed: _confirmweight,
+              onPressed: _confirmWeight,
               child: Text('Confirm'),
               style: ElevatedButton.styleFrom(
                 minimumSize: Size.fromHeight(50), // specify the height of the button
@@ -84,35 +135,6 @@ class _WeightRecordScreenState extends State<WeightRecordScreen> {
                   borderRadius: BorderRadius.circular(30.0),
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'kg',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: isKg ? Colors.grey : Colors.black,
-                  ),
-                ),
-                Switch(
-                  value: isKg,
-                  onChanged: (value) {
-                    setState(() {
-                      isKg = value;
-                    });
-                  },
-                  activeColor: Colors.green,
-                ),
-                Text(
-                  'lbs',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: isKg ? Colors.black : Colors.grey,
-                  ),
-                ),
-              ],
             ),
           ],
         ),
