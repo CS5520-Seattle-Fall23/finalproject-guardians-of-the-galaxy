@@ -233,10 +233,22 @@ https://www.mermaidchart.com/app/projects/9f0218a4-17e6-4865-8737-10a6b357de27/d
 | 2  | 2.1    | Password Management      | Allow users to reset and change passwords | Account Security | Medium | TC-04 |
 | 3  | 3.1    | Account Creation         | Streamline account setup process | User Experience | Medium | TC-05 |
 | 4  | 4.1    | Water Intake Tracking    | Help users monitor hydration | Health Tracking | High | TC-06 |
-| 5  | 5.1    | Sleep Time Tracking      | Enable tracking of sleep patterns | Health Tracking | High | TC-07 |
-| 6  | 6.1    | Diet Tracking            | Assist users in managing caloric intake | Health Tracking | High | TC-08 |
-| 7  | 7.1    | Wellness Tracking        | Assist users tracking weights | Health Tracking | High | TC-09 |
-| 8  | 8.1    | Generate Health Report   | Provide users with health trend insights | Data Analysis | High | TC-10, TC-11, TC-12, TC-13 |
-| 9  | 9.1    | Menstrual Cycle Tracking | Help users tracking period cycles | Health Tracking | High | TC-14 |
-| 10 | 10.1   | Notification System      | Inform users of reminders | User Engagement | High | TC-15 |
-| 11 | 11.1   | Data Security            | Ensure user data is protected | Security | High | TC-16 |
+| 4  | 4.2    | Water Intake Goal Set    | Enable users to set daily water intake goals | Health Tracking | High | TC-07 |
+| 4  | 4.3    | Water Intake Calendar    | Provide a visual representation of users' hydration over time | Health Tracking | Medium | TC-08 |
+| 4  | 4.4    | Water Intake Report      | Generate reports on water intake for users | Data Analysis |  Low | TC-09 |
+| 5  | 5.1    | Sleep Time Tracking      | Enable tracking of sleep patterns | Health Tracking | High | TC-10 |
+| 5  | 5.2    | Sleep Time Goal Set      | Allow users to set sleep duration goals | Health Tracking | High | TC-11 |
+| 5  | 5.3    | Sleep Time Calendar      | Provide a visual representation of users' sleep time | Health Tracking | Medium | TC-11 |
+| 5  | 5.4    | Sleep Time Report        | Generate reports on sleep time for users  | Data Analysis | Low | TC-12 |
+| 6  | 6.1    | Diet Tracking            | Assist users in managing caloric intake | Health Tracking | High | TC-13 |
+| 6  | 6.1    | Diet Goal Set            | Facilitate users in setting dietary goals | Health Tracking | High | TC-14|
+| 6  | 6.1    | Diet Calendar            | Create a daily log of dietary intake | Health Tracking | Medium | TC-15 |
+| 6  | 6.1    | Diet Report              | Provide a visual representation of users' sleep time | Data Analysis| Low | TC-16 |
+| 7  | 7.1    | Wellness Tracking        | Assist users tracking weights | Health Tracking | High | TC-17 |
+| 7  | 7.2    | Wellness Calculation     | Compute BMI and BMR for users | Data Analysis | Medium | TC-18 |
+| 7  | 7.3    | Wellness Comparison      | Compare user's weight with last | record Data Analysis| High | TC-19 |
+| 8  | 8.1    | Generate Health Report   | Provide users with health trend insights | Data Analysis | High | TC-20, TC-21, TC-22, TC-23 |
+| 9  | 9.1    | Menstrual Cycle Tracking | Help users tracking period cycles | Health Tracking | High | TC-24 |
+| 9  | 9.2    | Period Cycle Set         | Allow users to track menstrual cycles | Health Tracking | High | TC-25 |
+| 10 | 10.1   | Notification System      | Inform users of reminders | User Engagement | Medium | TC-26 |
+| 11 | 11.1   | Data Security            | Ensure user data is protected | Security | High | TC-27 |
