@@ -5,6 +5,9 @@ import '../bottomNavigationBar.dart';
 import '../homeScreen.dart';
 import '../period/periodMainScreen.dart';
 import '../report/reportHomeScreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class WaterIntakeCalendarScreen extends StatefulWidget {
   @override
@@ -16,12 +19,68 @@ class _WaterIntakeCalendarScreenState extends State<WaterIntakeCalendarScreen> {
   DateTime _selectedDay = DateTime.now();
   Map<DateTime, List> _events = {};
   Map<DateTime, Color> _dayColor = {};
+  int _selectedIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    _initializeEvents();
+    _fetchWaterRecords();
   }
+  String _getWaterIntakeStatusForDate(DateTime date) {
+  List events = _events[date] ?? [];
+  if (events.isNotEmpty) {
+    return 'On ${_formatDate(date)}, Your Water Intake Goal has ${events[0].toLowerCase()}.';
+  }
+  return 'On ${_formatDate(date)}, Your Water Intake was not recorded.';
+  }
+
+  String _formatDate(DateTime date) {
+    return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+  }
+  void _fetchWaterRecords() async {
+  // Ensure the user is logged in
+  User? user = FirebaseAuth.instance.currentUser;
+  if (user == null) {
+    print("No user logged in!");
+    return;
+  }
+  String userId = user.uid;
+
+  try {
+    // Fetch water records from Firestore
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('Water')
+        .doc(userId)
+        .collection('waterRecord')
+        .get();
+
+    // Convert documents into events and colors
+    Map<DateTime, List> events = {};
+    Map<DateTime, Color> dayColor = {};
+
+    for (var doc in snapshot.docs) {
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      // Use a try-catch to handle any parsing issues
+      try {
+        DateTime date = DateTime.parse(doc.id);
+        bool isComplete = data['Current'] >= data['Goal'];
+        events[date] = [isComplete ? 'Goal Completed' : 'Goal Not Completed'];
+        dayColor[date] = isComplete ? Colors.green : Colors.red;
+      } catch (e) {
+        print('Error parsing date or data for document ${doc.id}: $e');
+      }
+    }
+
+    // Update the state with the new events and colors
+    setState(() {
+      _events = events;
+      _dayColor = dayColor;
+    });
+  } catch (e) {
+    print('Error fetching water records: $e');
+  }
+}
+
   final List<Map<String, dynamic>> _annotations = [
     {
       'text': 'Water Intake Goal Completed!',
@@ -40,7 +99,6 @@ class _WaterIntakeCalendarScreenState extends State<WaterIntakeCalendarScreen> {
     },
   ];
 
-  int _selectedIndex = 0; // For bottom navigation bar
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -60,83 +118,91 @@ class _WaterIntakeCalendarScreenState extends State<WaterIntakeCalendarScreen> {
         break;
     }
   }
-  void _initializeEvents() {
-    // Initialize your events and day colors here.
-    // For the purpose of the example, we are initializing the colors and events statically.
-    DateTime today = DateTime.utc(2023, 12, 4); // Today's date
-    _events[today] = ['Water Intake Goal Completed!'];
-    _dayColor[today] = Colors.pink; // Pink background for completed goals
-    // ... Initialize other dates as needed
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("My Water Calendar"),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 0,
-      ),
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          TableCalendar(
-            firstDay: DateTime.utc(2010, 10, 16),
-            lastDay: DateTime.utc(2030, 3, 14),
-            focusedDay: _focusedDay,
-            selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-            eventLoader: (day) => _events[day] ?? [],
-            startingDayOfWeek: StartingDayOfWeek.sunday,
-            calendarFormat: CalendarFormat.month,
-            onDaySelected: (selectedDay, focusedDay) {
-              setState(() {
-                _selectedDay = selectedDay;
-                _focusedDay = focusedDay;
-              });
-            },
-            onPageChanged: (focusedDay) {
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: Text("My Water Calendar"),
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.black,
+      elevation: 0,
+    ),
+    body: Column(
+      mainAxisSize: MainAxisSize.max,
+      children: <Widget>[
+        TableCalendar(
+          firstDay: DateTime.utc(2010, 10, 16),
+          lastDay: DateTime.utc(2030, 3, 14),
+          focusedDay: _focusedDay,
+          selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+          eventLoader: (day) => _events[day] ?? [],
+          startingDayOfWeek: StartingDayOfWeek.sunday,
+          calendarFormat: CalendarFormat.month,
+          onDaySelected: (selectedDay, focusedDay) {
+            setState(() {
+              _selectedDay = selectedDay;
               _focusedDay = focusedDay;
-            },
-            calendarStyle: CalendarStyle(
-              // Define the styling here
-              defaultDecoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-              todayDecoration: BoxDecoration(
-                color: Colors.pink,
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-              selectedDecoration: BoxDecoration(
-                color: Colors.pink[300],
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-              markerDecoration: BoxDecoration(
-                color: Colors.brown,
-                shape: BoxShape.circle,
-              ),
-            ),
-            calendarBuilders: CalendarBuilders(
-              defaultBuilder: (context, date, focusedDay) {
-                return Container(
-                  margin: const EdgeInsets.all(4.0),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: _dayColor[date] ?? Colors.transparent,
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.circular(5.0),
-                  ),
-                  child: Text(
-                    '${date.day}',
-                    style: TextStyle().copyWith(fontSize: 16.0),
-                  ),
+            });
+          },
+          onPageChanged: (focusedDay) {
+            _focusedDay = focusedDay;
+          },
+          calendarBuilders: CalendarBuilders(
+            defaultBuilder: (context, date, _) {
+              bool isSelected = isSameDay(_selectedDay, date);
+              bool isToday = isSameDay(DateTime.now(), date);
+              bool isGoalCompleted = _events[date]?.contains('Goal Completed') ?? false;
+              bool isGoalNotCompleted = _events[date]?.contains('Goal Not Completed') ?? false;
+              
+              BoxDecoration boxDecoration;
+              if (isSelected) {
+                boxDecoration = BoxDecoration(
+                  color: Colors.pink[300],
+                  shape: BoxShape.circle,
                 );
-              },
-            ),
+              } else if (isGoalCompleted) {
+                boxDecoration = BoxDecoration(
+                  border: Border.all(color: Colors.green, width: 10),
+                  shape: BoxShape.circle,
+                );
+              } else if (isGoalNotCompleted) {
+                boxDecoration = BoxDecoration(
+                  border: Border.all(color: Colors.red, width: 10),
+                  shape: BoxShape.circle,
+                );
+              } else {
+                boxDecoration = BoxDecoration(
+                  shape: BoxShape.circle,
+                );
+              }
+
+              return Container(
+                margin: const EdgeInsets.all(4.0),
+                alignment: Alignment.center,
+                decoration: boxDecoration,
+                child: Text(
+                  '${date.day}',
+                  style: TextStyle().copyWith(fontSize: 16.0),
+                ),
+              );
+            },
+            todayBuilder: (context, date, _) {
+              return Container(
+                margin: const EdgeInsets.all(4.0),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: isSameDay(_selectedDay, date) ? Colors.pink[300] : Colors.blue,
+                  shape: BoxShape.circle,
+                ),
+                child: Text(
+                  '${date.day}',
+                  style: TextStyle().copyWith(fontSize: 16.0, color: Colors.white),
+                ),
+              );
+            },
           ),
+        ),
           Expanded(
             child: ListView.builder(
               itemCount: _annotations.length,
@@ -153,6 +219,15 @@ class _WaterIntakeCalendarScreenState extends State<WaterIntakeCalendarScreen> {
           ),
         ],
       ),
+      // This could be a SnackBar or a Text widget that changes based on the selected date's data
+    bottomSheet: Container(
+      color: Colors.grey[200],
+      padding: EdgeInsets.all(10),
+      child: Text(
+        _getWaterIntakeStatusForDate(_selectedDay),
+        textAlign: TextAlign.center,
+      ),
+    ),
       bottomNavigationBar: CustomBottomNavigationBar(
       selectedIndex: _selectedIndex,
       onItemTapped: _onItemTapped,

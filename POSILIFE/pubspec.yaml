@@ -20,6 +20,8 @@ dependencies:
   table_calendar: ^3.0.9
   fl_chart: ^0.36.0
   cloud_firestore: ^4.13.3
+  flutter_local_notifications: ^8.2.0
+  timezone: ^0.8.0
 
 dev_dependencies:
   flutter_test:

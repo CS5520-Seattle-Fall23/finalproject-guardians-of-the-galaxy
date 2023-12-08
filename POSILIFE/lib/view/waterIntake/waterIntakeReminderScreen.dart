@@ -4,22 +4,87 @@ import '../bottomNavigationBar.dart';
 import '../homeScreen.dart';
 import '../period/periodMainScreen.dart';
 import '../report/reportHomeScreen.dart';
-// Import any additional packages you might need for HTTP requests, such as 'package:http/http.dart' as http.
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'waterIntakeScreen.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'dart:async';
 
+
+// Import any additional packages you might need for HTTP requests, such as 'package:http/http.dart' as http.
 class WaterIntakeReminderScreen extends StatefulWidget {
   @override
   _WaterIntakeReminderScreenState createState() => _WaterIntakeReminderScreenState();
 }
 
 class _WaterIntakeReminderScreenState extends State<WaterIntakeReminderScreen> {
-  final TextEditingController _waterController = TextEditingController();
   int _selectedIndex = 0;
-  bool isOunces = false; // State variable to track unit toggle
-  @override
-  void dispose() {
-    _waterController.dispose();
-    super.dispose();
+  TimeOfDay selectedTime = TimeOfDay.now();
+  Timer? _timer;
+
+
+  Future<void> _selectTime(BuildContext context) async {
+    final TimeOfDay? timeOfDay = await showTimePicker(
+      context: context,
+      initialTime: selectedTime,
+      initialEntryMode: TimePickerEntryMode.dial,
+    );
+    if (timeOfDay != null && timeOfDay != selectedTime) {
+      setState(() {
+        selectedTime = timeOfDay;
+      });
+    }
   }
+
+void _setReminder() async {
+  String userId = FirebaseAuth.instance.currentUser!.uid;
+  DateTime reminderDateTime = DateTime(
+    DateTime.now().year,
+    DateTime.now().month,
+    DateTime.now().day,
+    selectedTime.hour,
+    selectedTime.minute,
+  );
+
+  if (reminderDateTime.isBefore(DateTime.now())) {
+    reminderDateTime = reminderDateTime.add(Duration(days: 1));
+  }
+
+  await FirebaseFirestore.instance.collection('Water').doc(userId).update({
+    'reminderTime': Timestamp.fromDate(reminderDateTime),
+  });
+
+  _startReminderTimer(reminderDateTime);
+
+  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => WaterIntakeScreen()));
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    content: Text('You have successfully set your reminder.'),
+  ));
+}
+
+void _startReminderTimer(DateTime reminderTime) {
+  _timer?.cancel(); // Cancel any existing timer
+
+  _timer = Timer.periodic(Duration(minutes: 1), (Timer t) {
+    var now = DateTime.now();
+    if (now.hour == reminderTime.hour && now.minute == reminderTime.minute) {
+      // Show in-app notification
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Time to drink some water!'),
+      ));
+
+      t.cancel(); // Cancel the timer after showing notification
+    }
+  });
+}
+
+@override
+void dispose() {
+  _timer?.cancel();
+  super.dispose();
+}
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -39,96 +104,56 @@ class _WaterIntakeReminderScreenState extends State<WaterIntakeReminderScreen> {
         break;
     }
   }
-  void _sendwatersToBackend(int waters) async {
-    // Placeholder for sending data to the backend.
-    // You would replace this with your actual HTTP request code.
-    // Here's an example using the http package:
-    //
-    // try {
-    //   final response = await http.post(
-    //     Uri.parse('YOUR_BACKEND_URL'),
-    //     headers: <String, String>{
-    //       'Content-Type': 'application/json; charset=UTF-8',
-    //     },
-    //     body: jsonEncode(<String, int>{
-    //       'waters': waters,
-    //     }),
-    //   );
-    //
-    //   if (response.statusCode == 200) {
-    //     // Handle the response
-    //   } else {
-    //     // If the server did not return a 200 OK response,
-    //     // then throw an exception.
-    //     throw Exception('Failed to load data');
-    //   }
-    // } catch (e) {
-    //   // Handle any errors here
-    // }
-
-    print('WaterIntake sent to the backend: $waters');
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Reminder'),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 0,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Text(
               'Customize Reminder:',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 20),
-            Text(
-              'Remind me when the total water intake reaches:',
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(height: 10),
-            TextField(
-              controller: _waterController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                hintText: 'Enter your waterIntake goal',
-                border: OutlineInputBorder(),
+          ),
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: InkWell(
+              onTap: () => _selectTime(context),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'Remind me to drink water at:',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  Text(
+                    '${selectedTime.format(context)}',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Validate and send the waters to the backend
-                int? waters = int.tryParse(_waterController.text);
-                if (waters != null) {
-                  _sendwatersToBackend(waters);
-                } else {
-                  // Show error or validation message
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Please enter a valid number.')),
-                  );
-                }
-              },
+          ),
+           Center(
+              child: ElevatedButton(
+              onPressed: _setReminder, // Call the _setReminder method here
               child: Text('Confirm'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 230, 183, 199), // Button background color
+                foregroundColor: Colors.white, // Button text color
+              ),
             ),
-            SwitchListTile(
-              title: Text('oz'),
-              subtitle: Text('ml'),
-              value: true,
-              onChanged: (bool value) {
-              },
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
       selectedIndex: _selectedIndex,
