@@ -4,7 +4,7 @@
             "outputFile": "com.example.complete.app-mergeDebugResources-14:/values-watch-v20/values-watch-v20.xml",
             "map": [
                 {
-                    "source": "/Users/jonathanzha/.gradle/caches/transforms-3/1dd93dfa68077670fe15796ffe5306f3/transformed/jetified-play-services-auth-20.7.0/res/values-watch-v20/values.xml",
+                    "source": "/Users/jonathanzha/.gradle/caches/transforms-3/c11051d42c93eaa2095bf59a23069e58/transformed/jetified-play-services-auth-20.7.0/res/values-watch-v20/values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11",
                         "startColumns": "0,0,0,0,0,0,0,0",
