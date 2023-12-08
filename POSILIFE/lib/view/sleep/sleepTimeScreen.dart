@@ -12,7 +12,8 @@ import 'sleepTimeGoalScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../model/sleep.dart';
-
+import '../../model/sleepRecord.dart';
+import '../../controller/date_controller.dart';
 
 class SleepTimeScreen extends StatefulWidget {
   @override
@@ -21,7 +22,18 @@ class SleepTimeScreen extends StatefulWidget {
 class _SleepTimeScreenState extends State<SleepTimeScreen> {
   int _selectedIndex = 0;
 
-  Sleep ? _sleepData; // Holds the fetched sleep data
+  int _currentSleepTime = 0; // State variable to track current sleep time
+  SleepRecord ? _sleepData; // Holds the fetched sleep data
+
+
+    // Update the current water intake value with unit conversion
+  void _updateDisplaySleepTime() {
+    setState(() {
+      if (_sleepData != null) {
+        _currentSleepTime = _sleepData!.current;
+      }
+    });
+  }
 
   @override
   void initState(){
@@ -32,14 +44,18 @@ class _SleepTimeScreenState extends State<SleepTimeScreen> {
   Future<void> _fetchSleepData() async {
     // Assuming the user is already authenticated and you have their user ID
     String userId = FirebaseAuth.instance.currentUser!.uid;
+    Timestamp now = Timestamp.now();
+    DateTime dateOnly = DateTime(now.toDate().year, now.toDate().month, now.toDate().day);
+    String dateId = formatDateOnly(dateOnly);
 
     try {
       DocumentSnapshot sleepDocSnapshot =
-        await FirebaseFirestore.instance.collection('Sleep').doc(userId).get();
+        await FirebaseFirestore.instance.collection('Sleep').doc(userId).collection('sleepRecord').doc(dateId).get();
     
       if (sleepDocSnapshot.exists) {
         setState(() {
-          _sleepData = Sleep.fromDocument(sleepDocSnapshot);
+          _sleepData = SleepRecord.fromDocument(sleepDocSnapshot);
+          _updateDisplaySleepTime();
         });
       } 
     } catch(e) {
@@ -84,15 +100,10 @@ class _SleepTimeScreenState extends State<SleepTimeScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-          // Check if the current screen can be popped
-          if (Navigator.of(context).canPop()) {
-            Navigator.of(context).pop(); // Pop the current screen off the stack
-          } else {
             Navigator.of(context).pushReplacement(
           // Push the home screen onto the stack without the ability to navigate back to the current screen
             MaterialPageRoute(builder: (context) => HomeScreen()), // Replace with your home screen widget
             );
-          }
         },
       ),
 
@@ -115,7 +126,7 @@ class _SleepTimeScreenState extends State<SleepTimeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        _sleepData != null ? '${_sleepData!.current} h' : '0 h',
+                        _sleepData != null ? '${_currentSleepTime.toStringAsFixed(0)} h' : '0 h',
                         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -134,6 +145,7 @@ class _SleepTimeScreenState extends State<SleepTimeScreen> {
                 percent: _sleepData != null ? _sleepData!.current / _sleepData!.goal : 0.0, 
                 center: Text(
                   _sleepData != null ? '${(_sleepData!.current / _sleepData!.goal * 100).toStringAsFixed(0)}%' : "0%",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
                 ),
                 circularStrokeCap: CircularStrokeCap.round,
                 progressColor: Colors.pink,

@@ -1,3 +1,4 @@
+import 'package:complete/controller/date_controller.dart';
 import 'package:flutter/material.dart';
 import 'sleepTimeScreen.dart';
 import "../account/accountInfoScreen.dart";
@@ -15,49 +16,32 @@ class SleepTimeRecordScreen extends StatefulWidget {
 
 class _SleepTimeRecordScreenState extends State<SleepTimeRecordScreen> {
   final TextEditingController _sleepTimeController = TextEditingController();
-  int quantity = 7;
   int _selectedIndex = 0;
-
-  void incrementQuantity() {
-    setState(() {
-      quantity++;
-    });
-  }
-
-  void decrementQuantity() {
-    if (quantity > 1) {
-      setState(() {
-        quantity--;
-      });
-    }
-  }
-
   void _confirmSleepTime() async {
     try{
       int sleepTime = int.parse(_sleepTimeController.text.trim());
 
-
-      //Fetch the current user's ID
+      // Fetch the current user's ID
       String userId = FirebaseAuth.instance.currentUser!.uid;
+      Timestamp now = Timestamp.now();
+      DateTime dateOnly = DateTime(now.toDate().year, now.toDate().month, now.toDate().day);
+      String dateId = formatDateOnly(dateOnly);
 
       //Fetch the user's current sleep document
-      DocumentReference sleepRef = FirebaseFirestore.instance.collection('Sleep').doc(userId);
+      DocumentReference sleepRef = FirebaseFirestore.instance.collection('Sleep').doc(userId).collection('sleepRecord').doc(dateId);
       DocumentSnapshot sleepSnap = await sleepRef.get();
 
       if (sleepSnap.exists) {
         // update the current sleep document
         await sleepRef.update({
-          'sleepTimeMap.current': FieldValue.increment(sleepTime), // increment the current sleep time
+          'current': FieldValue.increment(sleepTime), // increment the current sleep time
         });
       } else {
         // Create a new diet document for the user if it doesn't exist
         await sleepRef.set({
-          'sleepTimeMap': {
             'current': sleepTime,
             'date': Timestamp.fromDate(DateTime.now()),
             'goal': 8, // default
-          },
-          'reminderTime': Timestamp.now(),
         });
       }
 
@@ -70,12 +54,18 @@ class _SleepTimeRecordScreenState extends State<SleepTimeRecordScreen> {
       ));
 
     } catch(e) {
-      print('Error confirming calories intake: $e');
+      print('Error confirming sleep time: $e');
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Failed to record sleep time.'),
       ));
     }
   }
+  @override
+  void dispose() {
+    _sleepTimeController.dispose();
+    super.dispose();
+  }
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -99,82 +89,51 @@ class _SleepTimeRecordScreenState extends State<SleepTimeRecordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Today's Sleep Time", style: TextStyle(color: Colors.black)),
+        title: Text("Today's Sleep Time"),
         backgroundColor: Colors.white,
-        elevation: 0, // Remove the drop shadow
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            // Check if the current screen can be popped
-            if (Navigator.of(context).canPop()) {
-              Navigator.of(context)
-                  .pop(); // Pop the current screen off the stack
-            } else {
-              Navigator.of(context).pushReplacement(
-                // Push the home screen onto the stack without the ability to navigate back to the current screen
-                MaterialPageRoute(
-                    builder: (context) =>
-                        SleepTimeScreen()), // Replace with your home screen widget
-              );
-            }
-          },
-        ),
-      ),
-      body: SingleChildScrollView(
+        foregroundColor: Colors.black,
+        elevation: 0,
+      ),// Remove the drop shadow
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            // record today's sleep time
-            Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Center(
-                    child: Text(
-                      'Record Sleep Time: ',
-                      style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
+            Text(
+              'Add Sleep Time:',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 16),
+            TextField(
+              controller: _sleepTimeController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                hintText: 'Enter time',
+                filled: true,
+                fillColor: Colors.pink[50],
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
+                suffixText: 'h',
               ),
             ),
-
-            // edit sleep time
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.arrow_upward),
-                  onPressed: incrementQuantity,
-                ),
-                Text(
-                  '$quantity hours',
-                  style: TextStyle(fontSize: 20),
-                ),
-                IconButton(
-                  icon: Icon(Icons.arrow_downward),
-                  onPressed: decrementQuantity,
-                ),
-              ],
-            ),
-
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
+                // Call the confirm sleep time function when the button is pressed
                 _confirmSleepTime();
+                // navigate to the sleepTimeScreen again
+                Navigator.push(context, MaterialPageRoute(builder: (context) => SleepTimeScreen()));
               },
               child: Text('Confirm'),
               style: ElevatedButton.styleFrom(
-                minimumSize: Size.fromHeight(50),
+                minimumSize: Size.fromHeight(50), // specify the height of the button
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.0),
-                ),  
-              )
+                ),
+              ),
             ),
-            SizedBox(height: 20),
-
-            // The reminder section will go here
           ],
         ),
       ),
