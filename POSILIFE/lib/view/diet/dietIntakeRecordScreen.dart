@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:complete/controller/date_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import "../account/accountInfoScreen.dart";
@@ -30,28 +31,27 @@ class _DietIntakeRecordScreenState extends State<DietIntakeRecordScreen> {
 
       //Fetch the current user's ID
       String userId = FirebaseAuth.instance.currentUser!.uid;
+      Timestamp now = Timestamp.now();
+      DateTime dateOnly = DateTime(now.toDate().year, now.toDate().month, now.toDate().day);
+      String dateId = formatDateOnly(dateOnly);
 
       //Fetch the user's current diet document
-      DocumentReference dietRef = FirebaseFirestore.instance.collection('Diet').doc(userId);
+      DocumentReference dietRef = FirebaseFirestore.instance.collection('Diet').doc(userId).collection('dietRecord').doc(dateId);;
       DocumentSnapshot dietSnap = await dietRef.get();
 
       if (dietSnap.exists) {
         // update the current diet document
         await dietRef.update({
-          'dietIntakeMap.current': FieldValue.increment(calorieIntake), // increment the current calorie intake
-          'dietIntakeMap.currentUnit': unit, //update the current unit
+          'current': FieldValue.increment(calorieIntake), // increment the current calorie intake
+          'currentUnit': unit, //update the current unit
         });
       } else {
         // Create a new diet document for the user if it doesn't exist
         await dietRef.set({
-          'dietIntakeMap': {
             'current': calorieIntake,
-            'date': Timestamp.fromDate(DateTime.now()),
             'goal': 2000, // default
             'currentUnit': unit,
             'goalUnit':'kcal',
-          },
-          'reminderLimitation': 1800
         });
       }
 

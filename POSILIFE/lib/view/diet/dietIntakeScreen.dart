@@ -1,3 +1,5 @@
+import 'package:complete/controller/date_controller.dart';
+import 'package:complete/model/dietRecord.dart';
 import 'package:complete/view/diet/dietIntakeRecordScreen.dart';
 import 'package:complete/view/diet/dietIntakeReminderScreen.dart';
 import 'package:complete/view/diet/dietIntakeCalendarScreen.dart';
@@ -28,8 +30,7 @@ class _DietIntakeScreenState extends State<DietIntakeScreen> {
   final double _kcalToKj = 4.184;
   final double _kjTokcal = 0.239;
   double _currentCalorieIntake = 0.0;
-
-  Diet ? _dietData; // Holds the fetched diet data
+  DietRecord ? _dietData; // Holds the fetched diet data
 
   void _updateDisplayIntake(){
     setState(() {
@@ -50,14 +51,17 @@ class _DietIntakeScreenState extends State<DietIntakeScreen> {
   Future<void> _fetchDietData() async {
     // Assuming the user is already authenticated and you have their user ID
     String userId = FirebaseAuth.instance.currentUser!.uid;
+    Timestamp now = Timestamp.now();
+    DateTime dateOnly = DateTime(now.toDate().year, now.toDate().month, now.toDate().day);
+    String dateId = formatDateOnly(dateOnly);
 
     try {
       DocumentSnapshot dietDocSnapshot =
-        await FirebaseFirestore.instance.collection('Diet').doc(userId).get();
+        await FirebaseFirestore.instance.collection('Diet').doc(userId).collection('dietRecord').doc(dateId).get();
     
       if (dietDocSnapshot.exists) {
         setState(() {
-          _dietData = Diet.fromDocument(dietDocSnapshot);
+          _dietData = DietRecord.fromDocument(dietDocSnapshot);
           _updateDisplayIntake();
         });
       } 

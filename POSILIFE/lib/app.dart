@@ -1,6 +1,7 @@
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'view/login/auth_gate.dart';
+import 'view/login/PosiLifeHomeScreen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         useMaterial3: true,
       ),
-      home: const AuthGate(),
+      home: PosiLifeHomeScreen(),
     );
   }
 }
