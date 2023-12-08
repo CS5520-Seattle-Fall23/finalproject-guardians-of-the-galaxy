@@ -5,6 +5,8 @@ import '../bottomNavigationBar.dart';
 import '../homeScreen.dart';
 import '../period/periodMainScreen.dart';
 import '../report/reportHomeScreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AccountInfoPage extends StatefulWidget {
   @override
@@ -43,10 +45,32 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
     }
   }
   // Fetch user data from Firebase
-  void _fetchUserData() {
-    // TODO: Implement Firebase fetch logic
-    // After fetching, call setState() to update the UI
+  void _fetchUserData() async {
+  String userId = FirebaseAuth.instance.currentUser!.uid;
+
+  try {
+    DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('Users').doc(userId).get();
+
+    if (userDoc.exists) {
+      Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+
+      setState(() {
+        userName = userData['UserName'] ?? '';
+        userEmail = userData['Email'] ?? '';
+        userBirth = userData['Birth'] ?? ''; // Make sure 'Birth' field exists in Firestore
+        userHeight = userData['Height'] ?? 'None';
+        userWeight = userData['Weight'] ?? 'None';
+        cycleLength = userData['CycleLength'] ?? 'None';
+        periodLength = userData['PeriodLength'] ?? 'None';
+        medicalConditions = userData['MedicalCondition'] ?? 'None';
+      });
+    }
+  } catch (e) {
+    print('Error fetching user data: $e');
+    // Handle errors or show a message to the user
   }
+}
+
 
   @override
   void initState() {

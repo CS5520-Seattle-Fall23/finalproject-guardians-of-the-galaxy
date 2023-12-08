@@ -10,12 +10,16 @@ import 'account/accountInfoScreen.dart';
 import 'period/periodMainScreen.dart';
 import 'report/reportHomeScreen.dart';
 import 'bottomNavigationBar.dart' as BottomNavigationBar;
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 class _HomeScreenState extends State<HomeScreen> {
+  String userName = ""; // Fetch from Firebase
   int _selectedIndex = 0;
    // a variable to track the selected button index
    void _onItemTapped(int index) {
@@ -37,6 +41,33 @@ class _HomeScreenState extends State<HomeScreen> {
         break;
     }
   }
+
+  // fetch user data from Firebase
+  // get userName from User collection with doc(userId)
+
+  void fetch_UserName() async{
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+
+    try {
+        DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('Users').doc(userId).get();
+
+        if (userDoc.exists) {
+          Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+
+          setState(() {
+            userName = userData['UserName'] ?? '';
+            });
+        }
+      } catch (e) {
+        print('Error fetching user data: $e');
+        // Handle errors or show a message to the user
+      }
+    }
+  @override
+  void initState() {
+    super.initState();
+    fetch_UserName();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,14 +82,14 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.only(top: 20.0),
               child: Text(
-                'Hello, Sweet Angel! 🌻',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+              'Hello, ${userName.isNotEmpty ? userName : "Sweet Angel"}! 🌻',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
               ),
             ),
+          ),
             Expanded(
               child: ListView(
                 padding: EdgeInsets.all(20),

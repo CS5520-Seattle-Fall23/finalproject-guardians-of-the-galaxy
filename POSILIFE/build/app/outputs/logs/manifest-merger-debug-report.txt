@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 application
-INJECTED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/android/app/src/main/AndroidManifest.xml:2:5-32:19
+INJECTED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/android/app/src/main/AndroidManifest.xml:2:5-36:19
 MERGED from [:firebase_auth] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-15:19
 MERGED from [:firebase_auth] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-15:19
 MERGED from [:cloud_firestore] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-15:19
@@ -9,6 +9,8 @@ MERGED from [:firebase_dynamic_links] /Users/jonathanzha/cs5520/finalproject-gua
 MERGED from [:firebase_dynamic_links] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/firebase_dynamic_links/intermediates/merged_manifest/debug/AndroidManifest.xml:11:5-17:19
 MERGED from [:firebase_core] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-15:19
 MERGED from [:firebase_core] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-15:19
+MERGED from [:flutter_local_notifications] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:13:5-23:19
+MERGED from [:flutter_local_notifications] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:13:5-23:19
 MERGED from [com.google.firebase:firebase-auth:22.3.0] /Users/jonathanzha/.gradle/caches/transforms-3/59c3375fd9e11c827922abb91b461128/transformed/jetified-firebase-auth-22.3.0/AndroidManifest.xml:28:5-73:19
 MERGED from [com.google.firebase:firebase-auth:22.3.0] /Users/jonathanzha/.gradle/caches/transforms-3/59c3375fd9e11c827922abb91b461128/transformed/jetified-firebase-auth-22.3.0/AndroidManifest.xml:28:5-73:19
 MERGED from [com.google.firebase:firebase-firestore:24.9.1] /Users/jonathanzha/.gradle/caches/transforms-3/910a81ef385205073c71d48faa4eb2ef/transformed/jetified-firebase-firestore-24.9.1/AndroidManifest.xml:13:5-24:19
@@ -43,22 +45,25 @@ MERGED from [androidx.core:core:1.6.0] /Users/jonathanzha/.gradle/caches/transfo
 MERGED from [androidx.core:core:1.6.0] /Users/jonathanzha/.gradle/caches/transforms-3/cfb1b99aff7ad9cf4c1b8532c6075063/transformed/core-1.6.0/AndroidManifest.xml:24:5-89
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/jonathanzha/.gradle/caches/transforms-3/1bffb7afb193e8c101b312495473f0c9/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/jonathanzha/.gradle/caches/transforms-3/1bffb7afb193e8c101b312495473f0c9/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
+MERGED from [com.jakewharton.threetenabp:threetenabp:1.2.3] /Users/jonathanzha/.gradle/caches/transforms-3/4e786a409a8c86b56a35b409b39ae36e/transformed/jetified-threetenabp-1.2.3/AndroidManifest.xml:7:5-20
+MERGED from [com.jakewharton.threetenabp:threetenabp:1.2.3] /Users/jonathanzha/.gradle/caches/transforms-3/4e786a409a8c86b56a35b409b39ae36e/transformed/jetified-threetenabp-1.2.3/AndroidManifest.xml:7:5-20
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.6.0] /Users/jonathanzha/.gradle/caches/transforms-3/cfb1b99aff7ad9cf4c1b8532c6075063/transformed/core-1.6.0/AndroidManifest.xml:24:18-86
 	android:name
 		INJECTED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/android/app/src/main/AndroidManifest.xml
 manifest
-ADDED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/android/app/src/main/AndroidManifest.xml:1:1-33:12
-INJECTED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/android/app/src/main/AndroidManifest.xml:1:1-33:12
-INJECTED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/android/app/src/main/AndroidManifest.xml:1:1-33:12
-INJECTED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/android/app/src/main/AndroidManifest.xml:1:1-33:12
-MERGED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/android/app/src/main/AndroidManifest.xml:1:1-33:12
+ADDED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/android/app/src/main/AndroidManifest.xml:1:1-37:12
+INJECTED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/android/app/src/main/AndroidManifest.xml:1:1-37:12
+INJECTED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/android/app/src/main/AndroidManifest.xml:1:1-37:12
+INJECTED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/android/app/src/main/AndroidManifest.xml:1:1-37:12
+MERGED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/android/app/src/main/AndroidManifest.xml:1:1-37:12
 MERGED from [:shared_preferences_android] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/shared_preferences_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:firebase_auth] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-17:12
 MERGED from [:cloud_firestore] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-17:12
 MERGED from [:firebase_dynamic_links] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/firebase_dynamic_links/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-19:12
 MERGED from [:firebase_core] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-17:12
 MERGED from [:flutter_web_auth] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/flutter_web_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
+MERGED from [:flutter_local_notifications] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-25:12
 MERGED from [:google_sign_in_android] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/google_sign_in_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [:desktop_webview_auth] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/desktop_webview_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.firebase:firebase-auth:22.3.0] /Users/jonathanzha/.gradle/caches/transforms-3/59c3375fd9e11c827922abb91b461128/transformed/jetified-firebase-auth-22.3.0/AndroidManifest.xml:17:1-75:12
@@ -71,6 +76,7 @@ MERGED from [com.google.android.recaptcha:recaptcha:18.1.2] /Users/jonathanzha/.
 MERGED from [androidx.window:window-java:1.0.0-beta04] /Users/jonathanzha/.gradle/caches/transforms-3/c432125e31208403c91c32696aef3709/transformed/jetified-window-java-1.0.0-beta04/AndroidManifest.xml:17:1-23:12
 MERGED from [androidx.window:window:1.0.0-beta04] /Users/jonathanzha/.gradle/caches/transforms-3/18aed9bf87fc054bde2369bbce815f68/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:17:1-33:12
 MERGED from [androidx.multidex:multidex:2.0.1] /Users/jonathanzha/.gradle/caches/transforms-3/d25867943fcb4d7a9d3704c5e91dcf8c/transformed/multidex-2.0.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.media:media:1.1.0] /Users/jonathanzha/.gradle/caches/transforms-3/26499f3353e97917e034df57d8fa4372/transformed/media-1.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.gms:play-services-auth:20.7.0] /Users/jonathanzha/.gradle/caches/transforms-3/c11051d42c93eaa2095bf59a23069e58/transformed/jetified-play-services-auth-20.7.0/AndroidManifest.xml:17:1-40:12
 MERGED from [com.google.android.gms:play-services-auth-api-phone:18.0.1] /Users/jonathanzha/.gradle/caches/transforms-3/20b7478a850bbd4795b728b582cc0a71/transformed/jetified-play-services-auth-api-phone-18.0.1/AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.gms:play-services-auth-base:18.0.4] /Users/jonathanzha/.gradle/caches/transforms-3/b2fd69ca3201a04687ab294275d8932d/transformed/jetified-play-services-auth-base-18.0.4/AndroidManifest.xml:2:1-7:12
@@ -101,6 +107,7 @@ MERGED from [com.google.firebase:firebase-components:17.1.5] /Users/jonathanzha/
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] /Users/jonathanzha/.gradle/caches/transforms-3/f5b397d4be729b9c8a14e6bc755ca052/transformed/lifecycle-viewmodel-2.1.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/jonathanzha/.gradle/caches/transforms-3/85cea0b5432a3bcfefa99e10db2de4ae/transformed/interpolator-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [io.grpc:grpc-android:1.52.1] /Users/jonathanzha/.gradle/caches/transforms-3/825df1e7c4b9a14f11ee41442d7e74c1/transformed/jetified-grpc-android-1.52.1/AndroidManifest.xml:2:1-11:12
+MERGED from [com.jakewharton.threetenabp:threetenabp:1.2.3] /Users/jonathanzha/.gradle/caches/transforms-3/4e786a409a8c86b56a35b409b39ae36e/transformed/jetified-threetenabp-1.2.3/AndroidManifest.xml:2:1-9:12
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] /Users/jonathanzha/.gradle/caches/transforms-3/33edf3ee0517c86776bd6cb7682045f3/transformed/jetified-annotation-experimental-1.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] /Users/jonathanzha/.gradle/caches/transforms-3/7c683fb81f1299f97593f8981a39f57c/transformed/jetified-protolite-well-known-types-18.0.0/AndroidManifest.xml:2:1-11:12
 INJECTED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/android/app/src/debug/AndroidManifest.xml:1:1-7:12
@@ -108,15 +115,15 @@ INJECTED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POS
 INJECTED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/android/app/src/debug/AndroidManifest.xml:1:1-7:12
 	package
 		INJECTED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/android/app/src/main/AndroidManifest.xml:1:1-33:12
+		ADDED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/android/app/src/main/AndroidManifest.xml:1:1-37:12
 		INJECTED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/android/app/src/debug/AndroidManifest.xml
 	android:versionName
 		INJECTED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/android/app/src/main/AndroidManifest.xml:1:1-33:12
+		ADDED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/android/app/src/main/AndroidManifest.xml:1:1-37:12
 		INJECTED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/android/app/src/debug/AndroidManifest.xml
 	android:versionCode
 		INJECTED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/android/app/src/main/AndroidManifest.xml:1:1-33:12
+		ADDED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/android/app/src/main/AndroidManifest.xml:1:1-37:12
 		INJECTED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/android/app/src/debug/AndroidManifest.xml
 	xmlns:android
 		ADDED from /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/android/app/src/main/AndroidManifest.xml:1:11-69
@@ -136,6 +143,8 @@ MERGED from [:firebase_core] /Users/jonathanzha/cs5520/finalproject-guardians-of
 MERGED from [:firebase_core] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:flutter_web_auth] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/flutter_web_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:flutter_web_auth] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/flutter_web_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:flutter_local_notifications] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:flutter_local_notifications] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:google_sign_in_android] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/google_sign_in_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:google_sign_in_android] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/google_sign_in_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:desktop_webview_auth] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/desktop_webview_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
@@ -160,6 +169,8 @@ MERGED from [androidx.window:window:1.0.0-beta04] /Users/jonathanzha/.gradle/cac
 MERGED from [androidx.window:window:1.0.0-beta04] /Users/jonathanzha/.gradle/caches/transforms-3/18aed9bf87fc054bde2369bbce815f68/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.multidex:multidex:2.0.1] /Users/jonathanzha/.gradle/caches/transforms-3/d25867943fcb4d7a9d3704c5e91dcf8c/transformed/multidex-2.0.1/AndroidManifest.xml:20:5-43
 MERGED from [androidx.multidex:multidex:2.0.1] /Users/jonathanzha/.gradle/caches/transforms-3/d25867943fcb4d7a9d3704c5e91dcf8c/transformed/multidex-2.0.1/AndroidManifest.xml:20:5-43
+MERGED from [androidx.media:media:1.1.0] /Users/jonathanzha/.gradle/caches/transforms-3/26499f3353e97917e034df57d8fa4372/transformed/media-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.media:media:1.1.0] /Users/jonathanzha/.gradle/caches/transforms-3/26499f3353e97917e034df57d8fa4372/transformed/media-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [com.google.android.gms:play-services-auth:20.7.0] /Users/jonathanzha/.gradle/caches/transforms-3/c11051d42c93eaa2095bf59a23069e58/transformed/jetified-play-services-auth-20.7.0/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-auth:20.7.0] /Users/jonathanzha/.gradle/caches/transforms-3/c11051d42c93eaa2095bf59a23069e58/transformed/jetified-play-services-auth-20.7.0/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-auth-api-phone:18.0.1] /Users/jonathanzha/.gradle/caches/transforms-3/20b7478a850bbd4795b728b582cc0a71/transformed/jetified-play-services-auth-api-phone-18.0.1/AndroidManifest.xml:5:5-44
@@ -220,6 +231,8 @@ MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/jonathanzha/.gradl
 MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/jonathanzha/.gradle/caches/transforms-3/85cea0b5432a3bcfefa99e10db2de4ae/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [io.grpc:grpc-android:1.52.1] /Users/jonathanzha/.gradle/caches/transforms-3/825df1e7c4b9a14f11ee41442d7e74c1/transformed/jetified-grpc-android-1.52.1/AndroidManifest.xml:5:5-7:41
 MERGED from [io.grpc:grpc-android:1.52.1] /Users/jonathanzha/.gradle/caches/transforms-3/825df1e7c4b9a14f11ee41442d7e74c1/transformed/jetified-grpc-android-1.52.1/AndroidManifest.xml:5:5-7:41
+MERGED from [com.jakewharton.threetenabp:threetenabp:1.2.3] /Users/jonathanzha/.gradle/caches/transforms-3/4e786a409a8c86b56a35b409b39ae36e/transformed/jetified-threetenabp-1.2.3/AndroidManifest.xml:5:5-44
+MERGED from [com.jakewharton.threetenabp:threetenabp:1.2.3] /Users/jonathanzha/.gradle/caches/transforms-3/4e786a409a8c86b56a35b409b39ae36e/transformed/jetified-threetenabp-1.2.3/AndroidManifest.xml:5:5-44
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] /Users/jonathanzha/.gradle/caches/transforms-3/33edf3ee0517c86776bd6cb7682045f3/transformed/jetified-annotation-experimental-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] /Users/jonathanzha/.gradle/caches/transforms-3/33edf3ee0517c86776bd6cb7682045f3/transformed/jetified-annotation-experimental-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] /Users/jonathanzha/.gradle/caches/transforms-3/7c683fb81f1299f97593f8981a39f57c/transformed/jetified-protolite-well-known-types-18.0.0/AndroidManifest.xml:7:5-9:41
@@ -298,6 +311,43 @@ ADDED from [:firebase_core] /Users/jonathanzha/cs5520/finalproject-guardians-of-
 		ADDED from [:firebase_core] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:13:17-82
 	android:name
 		ADDED from [:firebase_core] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:12:17-124
+uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
+ADDED from [:flutter_local_notifications] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-81
+	android:name
+		ADDED from [:flutter_local_notifications] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:9:22-78
+uses-permission#android.permission.VIBRATE
+ADDED from [:flutter_local_notifications] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:10:5-66
+	android:name
+		ADDED from [:flutter_local_notifications] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:10:22-63
+uses-permission#android.permission.USE_FULL_SCREEN_INTENT
+ADDED from [:flutter_local_notifications] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:11:5-81
+	android:name
+		ADDED from [:flutter_local_notifications] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:11:22-78
+receiver#com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver
+ADDED from [:flutter_local_notifications] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:14:9-106
+	android:name
+		ADDED from [:flutter_local_notifications] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:14:19-103
+receiver#com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver
+MERGED from [:flutter_local_notifications] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:15:9-22:20
+MERGED from [:flutter_local_notifications] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:15:9-22:20
+intent-filter#action:name:android.intent.action.BOOT_COMPLETED+action:name:android.intent.action.MY_PACKAGE_REPLACED+action:name:android.intent.action.QUICKBOOT_POWERON+action:name:com.htc.intent.action.QUICKBOOT_POWERON
+ADDED from [:flutter_local_notifications] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:16:13-21:29
+action#android.intent.action.BOOT_COMPLETED
+ADDED from [:flutter_local_notifications] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:17:17-79
+	android:name
+		ADDED from [:flutter_local_notifications] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:17:25-76
+action#android.intent.action.MY_PACKAGE_REPLACED
+ADDED from [:flutter_local_notifications] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:18:17-84
+	android:name
+		ADDED from [:flutter_local_notifications] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:18:25-81
+action#android.intent.action.QUICKBOOT_POWERON
+ADDED from [:flutter_local_notifications] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:19:17-82
+	android:name
+		ADDED from [:flutter_local_notifications] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:19:25-79
+action#com.htc.intent.action.QUICKBOOT_POWERON
+ADDED from [:flutter_local_notifications] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:20:17-82
+	android:name
+		ADDED from [:flutter_local_notifications] /Users/jonathanzha/cs5520/finalproject-guardians-of-the-galaxy/POSILIFE/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:20:25-79
 uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from [com.google.firebase:firebase-auth:22.3.0] /Users/jonathanzha/.gradle/caches/transforms-3/59c3375fd9e11c827922abb91b461128/transformed/jetified-firebase-auth-22.3.0/AndroidManifest.xml:26:5-79
 MERGED from [com.google.firebase:firebase-firestore:24.9.1] /Users/jonathanzha/.gradle/caches/transforms-3/910a81ef385205073c71d48faa4eb2ef/transformed/jetified-firebase-firestore-24.9.1/AndroidManifest.xml:10:5-79
