@@ -9,8 +9,11 @@ import '../bottomNavigationBar.dart';
 import '../period/periodMainScreen.dart';
 import '../report/reportHomeScreen.dart';
 import 'sleepTimeGoalScreen.dart';
-
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../model/sleep.dart';
+import '../../model/sleepRecord.dart';
+import '../../controller/date_controller.dart';
 
 class SleepTimeScreen extends StatefulWidget {
   @override
@@ -18,6 +21,49 @@ class SleepTimeScreen extends StatefulWidget {
 }
 class _SleepTimeScreenState extends State<SleepTimeScreen> {
   int _selectedIndex = 0;
+
+  int _currentSleepTime = 0; // State variable to track current sleep time
+  SleepRecord ? _sleepData; // Holds the fetched sleep data
+
+
+    // Update the current water intake value with unit conversion
+  void _updateDisplaySleepTime() {
+    setState(() {
+      if (_sleepData != null) {
+        _currentSleepTime = _sleepData!.current;
+      }
+    });
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    _fetchSleepData();
+  }
+
+  Future<void> _fetchSleepData() async {
+    // Assuming the user is already authenticated and you have their user ID
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+    Timestamp now = Timestamp.now();
+    DateTime dateOnly = DateTime(now.toDate().year, now.toDate().month, now.toDate().day);
+    String dateId = formatDateOnly(dateOnly);
+
+    try {
+      DocumentSnapshot sleepDocSnapshot =
+        await FirebaseFirestore.instance.collection('Sleep').doc(userId).collection('sleepRecord').doc(dateId).get();
+    
+      if (sleepDocSnapshot.exists) {
+        setState(() {
+          _sleepData = SleepRecord.fromDocument(sleepDocSnapshot);
+          _updateDisplaySleepTime();
+        });
+      } 
+    } catch(e) {
+      print('Error fetching sleep data: $e');
+      // Handle errors or show a message to the user
+    }
+  }
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -54,15 +100,10 @@ class _SleepTimeScreenState extends State<SleepTimeScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-          // Check if the current screen can be popped
-          if (Navigator.of(context).canPop()) {
-            Navigator.of(context).pop(); // Pop the current screen off the stack
-          } else {
             Navigator.of(context).pushReplacement(
           // Push the home screen onto the stack without the ability to navigate back to the current screen
             MaterialPageRoute(builder: (context) => HomeScreen()), // Replace with your home screen widget
             );
-          }
         },
       ),
 
@@ -84,9 +125,8 @@ class _SleepTimeScreenState extends State<SleepTimeScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      // TODO: Add logic to display the water intake value(backend integration)
                       Text(
-                        '7.5 h',
+                        _sleepData != null ? '${_currentSleepTime.toStringAsFixed(0)} h' : '0 h',
                         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -102,15 +142,10 @@ class _SleepTimeScreenState extends State<SleepTimeScreen> {
                 radius: 120.0,
                 lineWidth: 13.0,
                 animation: true,
-                percent: 0.7, // Assuming 70% of the goal is completed
+                percent: _sleepData != null ? _sleepData!.current / _sleepData!.goal : 0.0, 
                 center: Text(
-                  //TODO: Add logic to display the water intake percentage(backend integration)
-                  "75%",
+                  _sleepData != null ? '${(_sleepData!.current / _sleepData!.goal * 100).toStringAsFixed(0)}%' : "0%",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
-                ),
-                footer: Text(
-                  "of your goal!",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
                 ),
                 circularStrokeCap: CircularStrokeCap.round,
                 progressColor: Colors.pink,
