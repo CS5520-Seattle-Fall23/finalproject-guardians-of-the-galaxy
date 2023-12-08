@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
-
 import 'sleepTimeScreen.dart';
+import "../account/accountInfoScreen.dart";
+import '../bottomNavigationBar.dart';
+import '../homeScreen.dart';
+import '../period/periodMainScreen.dart';
+import '../report/reportHomeScreen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SleepTimeRecordScreen extends StatefulWidget {
   @override
@@ -8,7 +14,9 @@ class SleepTimeRecordScreen extends StatefulWidget {
 }
 
 class _SleepTimeRecordScreenState extends State<SleepTimeRecordScreen> {
+  final TextEditingController _sleepTimeController = TextEditingController();
   int quantity = 7;
+  int _selectedIndex = 0;
 
   void incrementQuantity() {
     setState(() {
@@ -24,6 +32,69 @@ class _SleepTimeRecordScreenState extends State<SleepTimeRecordScreen> {
     }
   }
 
+  void _confirmSleepTime() async {
+    try{
+      int sleepTime = int.parse(_sleepTimeController.text.trim());
+
+
+      //Fetch the current user's ID
+      String userId = FirebaseAuth.instance.currentUser!.uid;
+
+      //Fetch the user's current sleep document
+      DocumentReference sleepRef = FirebaseFirestore.instance.collection('Sleep').doc(userId);
+      DocumentSnapshot sleepSnap = await sleepRef.get();
+
+      if (sleepSnap.exists) {
+        // update the current sleep document
+        await sleepRef.update({
+          'sleepTimeMap.current': FieldValue.increment(sleepTime), // increment the current sleep time
+        });
+      } else {
+        // Create a new diet document for the user if it doesn't exist
+        await sleepRef.set({
+          'sleepTimeMap': {
+            'current': sleepTime,
+            'date': Timestamp.fromDate(DateTime.now()),
+            'goal': 8, // default
+          },
+          'reminderTime': Timestamp.now(),
+        });
+      }
+
+      //Clear the input field after submitting
+      _sleepTimeController.clear();
+
+      //Show confirmation message
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Sleep time of $sleepTime h recorded.'),
+      ));
+
+    } catch(e) {
+      print('Error confirming calories intake: $e');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Failed to record sleep time.'),
+      ));
+    }
+  }
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    switch (index) {
+      case 0:
+        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        break;
+      case 1:
+        Navigator.push(context, MaterialPageRoute(builder: (context) => PeriodCalendarPage()));
+        break;
+      case 2:
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ReportHomeScreen()));
+        break;
+      case 3:
+        Navigator.push(context, MaterialPageRoute(builder: (context) => AccountInfoPage()));
+        break;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +123,7 @@ class _SleepTimeRecordScreenState extends State<SleepTimeRecordScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            // The title section with "Today" and SleepTime intake statistics will be here
+            // record today's sleep time
             Padding(
               padding: EdgeInsets.all(16.0),
               child: Column(
@@ -69,7 +140,7 @@ class _SleepTimeRecordScreenState extends State<SleepTimeRecordScreen> {
               ),
             ),
 
-            // The pie chart will go here
+            // edit sleep time
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -88,72 +159,31 @@ class _SleepTimeRecordScreenState extends State<SleepTimeRecordScreen> {
               ],
             ),
 
-            // The button to add SleepTime intake record will go here
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                _confirmSleepTime();
               },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 18.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.pink[50], // 背景色
-                    border: Border.all(
-                      color: Colors.white, // 边框颜色
-                      width: 2.0, // 边框宽度
-                    ),
-                    borderRadius: BorderRadius.circular(18.0), // 圆角
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 32.0,vertical: 12.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'Confirm',
-                          style: TextStyle(
-                            color: Colors.black, // 文本颜色
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ), // 标签
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              child: Text('Confirm'),
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size.fromHeight(50),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),  
+              )
             ),
+            SizedBox(height: 20),
 
             // The reminder section will go here
           ],
         ),
       ),
       // The bottom navigation bar will be added here
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.check_circle_outline),
-            label: 'TODAY',
-            backgroundColor: Colors.black,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.invert_colors),
-            label: 'PERIOD',
-            backgroundColor: Colors.black,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bar_chart),
-            label: 'REPORT',
-            backgroundColor: Colors.black,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'ACCOUNT',
-            backgroundColor: Colors.black,
-          ),
-        ],
-        selectedItemColor: Color.fromARGB(255, 238, 107, 151),
-      ),
+      bottomNavigationBar: CustomBottomNavigationBar(
+      selectedIndex: _selectedIndex,
+      onItemTapped: _onItemTapped,
+     ),
     );
   }
 }
+

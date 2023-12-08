@@ -4,6 +4,15 @@ import 'package:complete/view/diet/dietIntakeCalendarScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import '../homeScreen.dart';
+import"../account/accountInfoScreen.dart";
+import '../bottomNavigationBar.dart';
+import '../period/periodMainScreen.dart';
+import '../report/reportHomeScreen.dart';
+import 'dietIntakeGoalScreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../model/diet.dart';
+
 
 
 class DietIntakeScreen extends StatefulWidget {
@@ -14,7 +23,50 @@ class DietIntakeScreen extends StatefulWidget {
 class _DietIntakeScreenState extends State<DietIntakeScreen> {
   int _selectedIndex = 0;
   List<bool> _selections = [true, false];
-  bool isKcal = false; // State variable to track unit toggle
+  bool isKJ = false; // State variable to track unit toggle
+
+  final double _kcalToKj = 4.184;
+  final double _kjTokcal = 0.239;
+  double _currentCalorieIntake = 0.0;
+
+  Diet ? _dietData; // Holds the fetched diet data
+
+  void _updateDisplayIntake(){
+    setState(() {
+      if (_dietData != null) {
+        _currentCalorieIntake = isKJ
+          ? _dietData!.current * _kjTokcal // conver kj to kcal
+          : _dietData!.current.toDouble(); // keep it as kcal
+      }
+    });
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    _fetchDietData();
+  }
+
+  Future<void> _fetchDietData() async {
+    // Assuming the user is already authenticated and you have their user ID
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+
+    try {
+      DocumentSnapshot dietDocSnapshot =
+        await FirebaseFirestore.instance.collection('Diet').doc(userId).get();
+    
+      if (dietDocSnapshot.exists) {
+        setState(() {
+          _dietData = Diet.fromDocument(dietDocSnapshot);
+          _updateDisplayIntake();
+        });
+      } 
+    } catch(e) {
+      print('Error fetching diet data: $e');
+      // Handle errors or show a message to the user
+    }
+  }
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -24,13 +76,13 @@ class _DietIntakeScreenState extends State<DietIntakeScreen> {
         Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
         break;
       case 1:
-        Navigator.pushNamed(context, '/periodRecordScreen');
+        Navigator.push(context, MaterialPageRoute(builder: (context) => PeriodCalendarPage()));
         break;
       case 2:
-        Navigator.pushNamed(context, '/reportHomeScreen');
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ReportHomeScreen()));
         break;
       case 3:
-        Navigator.pushNamed(context, '/accountInfoScreen');
+        Navigator.push(context, MaterialPageRoute(builder: (context) => AccountInfoPage()));
         break;
     }
   }
@@ -81,9 +133,10 @@ class _DietIntakeScreenState extends State<DietIntakeScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      // TODO: Add logic to display the calorie intake value(backend integration)
                       Text(
-                        '1400 kcal',
+                        isKJ
+                          ? '${_currentCalorieIntake.toStringAsFixed(2)} kJ'
+                          : '${_currentCalorieIntake.toStringAsFixed(0)} kcal',
                         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -99,44 +152,54 @@ class _DietIntakeScreenState extends State<DietIntakeScreen> {
                 radius: 120.0,
                 lineWidth: 13.0,
                 animation: true,
-                percent: 0.7, // Assuming 70% of the goal is completed
+                percent: _dietData != null ? _dietData!.current / _dietData!.goal : 0.0, 
                 center: Text(
-                  //TODO: Add logic to display the calorie intake percentage(backend integration)
-                  "70%",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
-                ),
-                footer: Text(
-                  "of your goal!",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
+                  _dietData != null ? '${(_dietData!.current / _dietData!.goal * 100).toStringAsFixed(0)}%' : "0%",
                 ),
                 circularStrokeCap: CircularStrokeCap.round,
                 progressColor: Colors.pink,
               ),
             ),
 
-            // The button to add calorie intake record will go here
-                        Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: ElevatedButton.icon(
+             Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton.icon(
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => DietIntakeRecordScreen(), // Replace with your actual calorie intake record screen widget
+                      builder: (context) => DietIntakeRecordScreen(), // Replace with your actual water intake record screen widget
                     ),
                   );
                 },
                 icon: Icon(Icons.add, color: Colors.white),
-                label: Text("calorie +", style: TextStyle(color: Colors.white)),
+                label: Text("Calorie", style: TextStyle(color: Colors.white)),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
+                  backgroundColor: Colors.blue[300],
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18.0),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                 ),
               ),
-
-            ),
+              ElevatedButton.icon(
+                onPressed: () {
+                  // Navigate to DietIntakeGoalScreen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DietIntakeGoalScreen()),
+                  );
+                },
+                icon: Icon(Icons.flag, color: Colors.white), // Use an appropriate icon
+                label: Text('Calorie Goal', style: TextStyle(color: Colors.white)), // Replace with appropriate text
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue[300],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                  ),
+                ),
+              ),
+            ],
+          ),
             // calorie Intake Calendar
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -178,7 +241,7 @@ class _DietIntakeScreenState extends State<DietIntakeScreen> {
             
             // The toggle for units (KJ/Kcal) will go here
             Padding(
-            padding: EdgeInsets.symmetric(vertical: 8.0),
+              padding: EdgeInsets.symmetric(vertical: 8.0),
             child: Center( // This will center the ToggleButtons horizontally
               child: ToggleButtons(
                 borderColor: Colors.grey,
@@ -186,23 +249,21 @@ class _DietIntakeScreenState extends State<DietIntakeScreen> {
                 borderWidth: 2,
                 selectedBorderColor: Colors.pink,
                 selectedColor: Colors.white,
-                borderRadius: BorderRadius.circular(0),
+                borderRadius: BorderRadius.circular(0),     
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Text('Kcal'),
+                    child: Text('kcal'),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Text('KJ'),
+                    child: Text('kJ'),
                   ),
                 ],
                 onPressed: (int index) {
                   setState(() {
-                    for (int i = 0; i < _selections.length; i++) {
-                      _selections[i] = i == index;
-                    }
-                    // TODO: Add logic to handle unit change
+                    isKJ = index == 1;
+                    _updateDisplayIntake();
                   });
                 },
                 isSelected: _selections,
@@ -220,59 +281,4 @@ class _DietIntakeScreenState extends State<DietIntakeScreen> {
     );
   }
 }
-// The custom widget for the BottomNavigationBar
-class CustomBottomNavigationBar extends StatelessWidget {
-  final int selectedIndex;
-  final Function(int) onItemTapped;
 
-  const CustomBottomNavigationBar({
-    Key? key,
-    required this.selectedIndex,
-    required this.onItemTapped,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BottomAppBar(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: List.generate(4, (index) {
-          return InkWell(
-            onTap: () => onItemTapped(index),
-            splashColor: Colors.transparent, // Remove splash effect
-            highlightColor: Colors.transparent, // Remove highlight effect
-            child: AnimatedContainer(
-              duration: Duration(milliseconds: 300),
-              height: kBottomNavigationBarHeight,
-              width: MediaQuery.of(context).size.width / 4,
-              decoration: BoxDecoration(
-                color: selectedIndex == index ? Colors.pink.shade200 : Colors.white,
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: Icon(
-                getIcon(index),
-                color: selectedIndex == index ? Colors.white : Colors.grey,
-              ),
-            ),
-          );
-        }),
-      ),
-      color: Colors.white,
-    );
-  }
-
-  IconData getIcon(int index) {
-    switch (index) {
-      case 0:
-        return Icons.calendar_view_day;
-      case 1:
-        return Icons.calendar_month;
-      case 2:
-        return Icons.bar_chart;
-      case 3:
-        return Icons.account_box;
-      default:
-        return Icons.error;
-    }
-  }
-}
