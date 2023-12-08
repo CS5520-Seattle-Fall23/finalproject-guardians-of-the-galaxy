@@ -221,7 +221,8 @@ https://www.mermaidchart.com/app/projects/9f0218a4-17e6-4865-8737-10a6b357de27/d
 
 ## 6 Gantt Diagram
 
-![Gantt Diagram](image-1.png)
+![GanttChat_Dec](https://github.com/CS5520-Seattle-Fall23/finalproject-guardians-of-the-galaxy/assets/109750971/8825d0fe-2e95-4bae-a9fc-b7be0e2f3b48)
+
 
 ## 7 Traceability Matrix
 
