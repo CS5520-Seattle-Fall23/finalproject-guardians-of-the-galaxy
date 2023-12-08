@@ -214,7 +214,8 @@ https://cdn-uploads.piazza.com/paste/l7sdfz0jelj3fa/a2d583342cdd1b2b2ae8949734fa
 
 ## 5 UML Class Diagram 
 
-![UML Class Diagram](image.png)
+![classDiagram_dec](https://github.com/CS5520-Seattle-Fall23/finalproject-guardians-of-the-galaxy/assets/109750971/f9dbbe3d-8e07-4378-a33c-321cf35c2857)
+
 
 https://www.mermaidchart.com/app/projects/9f0218a4-17e6-4865-8737-10a6b357de27/diagrams/a6f46a8c-aed6-41e3-ad30-57fdbd1e8e17/version/v0.1/edit
 
