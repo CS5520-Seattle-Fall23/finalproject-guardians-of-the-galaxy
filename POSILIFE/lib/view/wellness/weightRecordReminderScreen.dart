@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import '../account/accountInfoScreen.dart';
 import '../bottomNavigationBar.dart';
 
+import '../homeScreen.dart';
+import "../period/periodMainScreen.dart";
+import '../report/reportHomeScreen.dart';
+
 
 class WeightRecordReminderScreen extends StatefulWidget {
   @override
@@ -29,13 +33,13 @@ class _WeightRecordReminderScreenState extends State<WeightRecordReminderScreen>
     });
     switch (index) {
       case 0:
-        Navigator.pushNamed(context, '/waterIntakeScreen');
+        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
         break;
       case 1:
-        Navigator.pushNamed(context, '/periodRecordScreen');
+        Navigator.push(context, MaterialPageRoute(builder: (context) => PeriodCalendarPage()));
         break;
       case 2:
-        Navigator.pushNamed(context, '/reportHomeScreen');
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ReportHomeScreen()));
         break;
       case 3:
         Navigator.push(context, MaterialPageRoute(builder: (context) => AccountInfoPage()));
