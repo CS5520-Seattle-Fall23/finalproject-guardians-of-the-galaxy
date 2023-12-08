@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../login/auth_gate.dart';
+import '../login/signInScreen.dart';
 import 'changePasswordScreen.dart';
 import '../bottomNavigationBar.dart';
 import '../homeScreen.dart';
@@ -83,7 +83,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => AuthGate()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => SignInScreen()));
               },
               child: Text('Sign Out'),
               style: ElevatedButton.styleFrom(

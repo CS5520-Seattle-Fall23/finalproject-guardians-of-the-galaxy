@@ -9,6 +9,11 @@ import '../bottomNavigationBar.dart';
 import '../period/periodMainScreen.dart';
 import '../report/reportHomeScreen.dart';
 import 'waterIntakeGoalScreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../model/water.dart';
+import '../../model/waterRecord.dart';
+import '../../controller/date_controller.dart';
 
 
 class WaterIntakeScreen extends StatefulWidget {
@@ -19,6 +24,52 @@ class _WaterIntakeScreenState extends State<WaterIntakeScreen> {
   int _selectedIndex = 0;
   List<bool> _selections = [true, false];
   bool isOunces = false; // State variable to track unit toggle
+  // Conversion constants
+  final double _mlToOz = 0.033814;
+  final double _ozToMl = 29.5735;
+  double _currentWaterIntake = 0.0; // State variable to track current water intake
+  WaterRecord? _waterData; // Holds the fetched water data
+
+  // Update the current water intake value with unit conversion
+  void _updateDisplayIntake() {
+    setState(() {
+      if (_waterData != null) {
+        _currentWaterIntake = isOunces
+            ? _waterData!.current * _mlToOz // Convert ml to oz
+            : _waterData!.current.toDouble(); // Keep it as ml
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchWaterData();
+  }
+
+  Future<void> _fetchWaterData() async {
+    // Assuming the user is already authenticated and you have their user ID
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+    Timestamp now = Timestamp.now();
+    DateTime dateOnly = DateTime(now.toDate().year, now.toDate().month, now.toDate().day);
+    String dateId = formatDateOnly(dateOnly);
+
+    try {
+      DocumentSnapshot waterDocSnapshot = 
+        await FirebaseFirestore.instance.collection('Water').doc(userId).collection('waterRecord').doc(dateId).get();
+
+      if (waterDocSnapshot.exists) {
+        setState(() {
+          _waterData = WaterRecord.fromDocument(waterDocSnapshot);
+          _updateDisplayIntake();
+        });
+      }
+    } catch (e) {
+      print('Error fetching water data: $e');
+      // Handle errors or show a message to the user
+    }
+  }
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -55,15 +106,10 @@ class _WaterIntakeScreenState extends State<WaterIntakeScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-          // Check if the current screen can be popped
-          if (Navigator.of(context).canPop()) {
-            Navigator.of(context).pop(); // Pop the current screen off the stack
-          } else {
             Navigator.of(context).pushReplacement(
           // Push the home screen onto the stack without the ability to navigate back to the current screen
             MaterialPageRoute(builder: (context) => HomeScreen()), // Replace with your home screen widget
             );
-          }
         },
       ),
 
@@ -83,13 +129,14 @@ class _WaterIntakeScreenState extends State<WaterIntakeScreen> {
                   ),
                   SizedBox(height: 8),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      // TODO: Add logic to display the water intake value(backend integration)
-                      Text(
-                        '700 ml',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                              isOunces
+                                  ? '${_currentWaterIntake.toStringAsFixed(2)} oz' // Display in oz if isOunces is true
+                                  : '${_currentWaterIntake.toStringAsFixed(0)} ml', // Display in ml if isOunces is false
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
                     ],
                   ),
                 ],
@@ -103,18 +150,13 @@ class _WaterIntakeScreenState extends State<WaterIntakeScreen> {
                 radius: 120.0,
                 lineWidth: 13.0,
                 animation: true,
-                percent: 0.7, // Assuming 70% of the goal is completed
+                percent: _waterData != null ? _waterData!.current / _waterData!.goal : 0.0,
                 center: Text(
-                  //TODO: Add logic to display the water intake percentage(backend integration)
-                  "70%",
+                  _waterData != null ? '${(_waterData!.current / _waterData!.goal * 100).toStringAsFixed(0)}%' : "0%",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
                 ),
-                footer: Text(
-                  "of your goal!",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
-                ),
                 circularStrokeCap: CircularStrokeCap.round,
-                progressColor: Colors.pink,
+                progressColor: Colors.pink[300],
               ),
             ),
             Row(
@@ -217,15 +259,13 @@ class _WaterIntakeScreenState extends State<WaterIntakeScreen> {
                   ),
                 ],
                 onPressed: (int index) {
-                  setState(() {
-                    for (int i = 0; i < _selections.length; i++) {
-                      _selections[i] = i == index;
-                    }
-                    // TODO: Add logic to handle unit change
-                  });
-                },
-                isSelected: _selections,
-              ),
+                        setState(() {
+                          isOunces = index == 1; // if index is 1, then isOunces is true
+                          _updateDisplayIntake(); // Update the display intake after toggling
+                        });
+                      },
+                      isSelected: _selections,
+                    ),
             ),
           ),
           ],

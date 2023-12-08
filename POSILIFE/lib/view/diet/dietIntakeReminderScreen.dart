@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dietIntakeScreen.dart';
 import "../account/accountInfoScreen.dart";
 import '../bottomNavigationBar.dart';
 import '../period/periodMainScreen.dart';
