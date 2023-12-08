@@ -68,7 +68,8 @@ As a user, I want my data to be stored securely and not vulnerable to breaches.
 
 ### 2.3 App Workflow (Flowchart):
 
-(Provide a visual representation of the app's workflow, including screens, user interactions, and data flow.)
+![flowchart](https://github.com/CS5520-Seattle-Fall23/finalproject-guardians-of-the-galaxy/assets/109750971/04c8f0b0-ad8b-4d10-b9ff-e38cc4eb0f2b)
+
 
 ## 3 Requirements:
 
