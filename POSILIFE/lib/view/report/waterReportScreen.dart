@@ -13,8 +13,6 @@ class WaterReportScreen extends StatefulWidget {
 }
 
 class _WaterReportScreenState extends State<WaterReportScreen> {
-  final weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  final waterIntakeData = [1600, 1400, 1800, 1900, 1500, 1700, 1800]; // Example data
   int _selectedIndex = 2; // Assumed you have a bottom navigation with index
 
   void _onItemTapped(int index) {
@@ -36,6 +34,7 @@ class _WaterReportScreenState extends State<WaterReportScreen> {
         break;
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,65 +45,30 @@ class _WaterReportScreenState extends State<WaterReportScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          // Image
+          Image.asset(
+            'assets/waterReport.png',
+            fit: BoxFit.contain,
+          ),
+          // Back button
           Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: BarChart(
-              BarChartData(
-                alignment: BarChartAlignment.spaceAround,
-                maxY: 2000,
-                barTouchData: BarTouchData(
-                  enabled: false,
-                ),
-                titlesData: FlTitlesData(
-                  show: true,
-                  bottomTitles: SideTitles(
-                    showTitles: true,
-                    getTextStyles: (context, value) => const TextStyle(color: Colors.black, fontSize: 14),
-                    margin: 16,
-                    getTitles: (double value) {
-                      return weekDays[value.toInt()];
-                    },
-                  ),
-                  leftTitles: SideTitles(
-                    showTitles: true,
-                    getTextStyles: (context, value) => const TextStyle(color: Colors.black, fontSize: 14),
-                    margin: 32,
-                    reservedSize: 14,
-                  ),
-                ),
-                gridData: FlGridData(
-                  show: true,
-                  checkToShowHorizontalLine: (value) => value % 500 == 0,
-                  getDrawingHorizontalLine: (value) => FlLine(
-                    color: Colors.black12,
-                    strokeWidth: 1.0,
-                  ),
-                ),
-                borderData: FlBorderData(
-                  show: false,
-                ),
-                barGroups: waterIntakeData.asMap().entries.map((entry) {
-                  return BarChartGroupData(
-                    x: entry.key,
-                    barRods: [
-                      BarChartRodData(
-                        y: entry.value.toDouble(),
-                        colors: [Colors.lightBlueAccent, Colors.greenAccent],
-                      ),
-                    ],
-                  );
-                }).toList(),
-              ),
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ReportHomeScreen()));// Navigate back to the previous screen
+              },
             ),
           ),
-          // Your other widgets go here
+          // Your original bottom navigation bar
+          Expanded(
+            child: CustomBottomNavigationBar(
+              selectedIndex: _selectedIndex,
+              onItemTapped: _onItemTapped,
+            ),
+          ),
         ],
       ),
-      // Bottom navigation bar can be added here if needed
-      bottomNavigationBar: CustomBottomNavigationBar(
-      selectedIndex: _selectedIndex,
-      onItemTapped: _onItemTapped,
-     ),
     );
   }
 }
