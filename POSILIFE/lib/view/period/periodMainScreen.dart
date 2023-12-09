@@ -4,8 +4,12 @@ import 'package:table_calendar/table_calendar.dart';
 import '../account/accountInfoScreen.dart';
 import 'periodReminderScreen.dart';
 import '../bottomNavigationBar.dart';
-import 'periodTrendScreen.dart';
+import 'periodSetScreen.dart';
 import '../report/reportHomeScreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
+
 
 class PeriodCalendarPage extends StatefulWidget {
   @override
@@ -16,13 +20,36 @@ class _PeriodCalendarPageState extends State<PeriodCalendarPage> {
   late Map<DateTime, List> _selectedEvents;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
+  DateTime? _periodStartDate;
+  DateTime? _periodEndDate;
   int _selectedIndex = 1;
 
   @override
   void initState() {
     super.initState();
     _selectedEvents = {};
+    _fetchPeriodData();
   }
+
+  void _fetchPeriodData() async {
+  String userId = FirebaseAuth.instance.currentUser!.uid;
+  String documentId = DateFormat('yyyy-MM').format(DateTime.now());
+
+  DocumentReference periodRecordRef = FirebaseFirestore.instance
+      .collection('Period')
+      .doc(userId)
+      .collection('periodRecord')
+      .doc(documentId);
+
+  DocumentSnapshot periodSnapshot = await periodRecordRef.get();
+
+  if (periodSnapshot.exists) {
+    setState(() {
+      _periodStartDate = DateTime(_focusedDay.year, _focusedDay.month, periodSnapshot['startDate']);
+      _periodEndDate = DateTime(_focusedDay.year, _focusedDay.month, periodSnapshot['endDate']);
+    });
+  }
+}
 
   void _onItemTapped(int index) {
     setState(() {
@@ -73,29 +100,37 @@ class _PeriodCalendarPageState extends State<PeriodCalendarPage> {
             onDaySelected: _onDaySelected,
             calendarStyle: CalendarStyle(
               todayDecoration: BoxDecoration(
-                color: Colors.pink.shade100,
+                color: Color.fromARGB(255, 163, 158, 164),
                 shape: BoxShape.circle,
               ),
               selectedDecoration: BoxDecoration(
-                color: Colors.pink.shade100,
+                color: Colors.purple.shade100,
                 shape: BoxShape.circle,
               ),
             ),
-          ),
-          ListTile(
-            title: Text(
-              'Press on the date to choose your period',
-            ),
-            subtitle: Text(
-              _selectedDay != null
-                  ? 'Your selected period date is ${_selectedDay.toString()}'
-                  : 'No period data.',
+            calendarBuilders: CalendarBuilders(
+              defaultBuilder: (context, day, focusedDay) {
+                if (_periodStartDate != null && _periodEndDate != null) {
+                  if (day.isAfter(_periodStartDate!.subtract(Duration(days: 1))) &&
+                      day.isBefore(_periodEndDate!.add(Duration(days: 0)))) {
+                    return Container(
+                      margin: const EdgeInsets.all(4.0),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color:Colors.pink.shade100,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Text(day.day.toString()),
+                    );
+                  }
+                }
+                // Return null for days that should not be customized.
+                return null;
+              },
             ),
           ),
           ElevatedButton(
             onPressed: () {
-              // TODO: Implement reminder setting logic
-
               // After setting the reminder, navigate to the reminder screen
               Navigator.push(context, MaterialPageRoute(builder: (context) => PeriodReminderScreen()));
             },
@@ -106,11 +141,10 @@ class _PeriodCalendarPageState extends State<PeriodCalendarPage> {
           ),
           ElevatedButton(
             onPressed: () {
-              // TODO: Navigate to Period Trending Page
-              Navigator.push(context, MaterialPageRoute(builder: (context) => PeriodTrendScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => PeriodSetScreen()));
 
             },
-            child: Text('My Period Trending'),
+            child: Text('Set Current My Period'),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.pink[200],
             ),
