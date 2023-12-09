@@ -363,3 +363,64 @@ https://www.mermaidchart.com/app/projects/bf810f01-1cb7-4daa-b08b-b9954629bffe/d
 | 9  | 9.2    | Period Cycle Set         | Allow users to track menstrual cycles | Health Tracking | High | TC-25 |
 | 10 | 10.1   | Notification System      | Inform users of reminders | User Engagement | Medium | TC-26 |
 | 11 | 11.1   | Data Security            | Ensure user data is protected | Security | High | TC-27 |
+
+
+## 10 Project Backlog
+
+- Complete first round user study by 9/19.
+  
+- Finish the general layout of the Software Requirements Specification by 9/20. 
+
+- Finished the main technical requirements for our application and completed the software requirement specification by 9/26.
+
+- Discussed the design of the Lo-Fi wireframe by 10/2. Yiwei Zha sketched the initial version by hand.
+
+- Finalized the wireframe based on our requirements by Yiwei Zha 10/3.
+
+- User Feedback: Compile and prioritize adjustments based on user feedback by all team members.
+
+- Polishing the Software Requirements Specification to 2.0v by 10/7.
+
+- Completed the wireframe modifications and added detailed descriptions for each page in Lo-Fi wireframe by 10/12.
+
+- Makoya generated the sprint report2 by 10/23.
+
+- Develop the Sign in/Sign up(User Registration) part by Yiwei Zha by 10/25.
+
+- Completed another version of SRS by all team members and Yiwei Zha also updated it in README by 10/18
+
+- Zhen Sun completed the Hi-Fi wireframe in Figma by 10/22.
+
+- Finalized all app functionalities based on the wireframe's final version by 10/25.
+
+- Start to work on frontend Feature in 11/1
+
+- Makoya generated the sprint report3 by 11/4.
+
+- Started work on frontendcode.Yiwei Zha worked on user login , water and period sreen. Makoya and Zhen Sun worked on the Sleep, Diet and Wellness Screen. while some of the frontend features that they built looked differently from our high fidelity wireframe by 11/13.
+
+- Yiwei Zha finish user login and Firebase authentication integration by 11/15.
+
+- Yiwei Zha rebuilt Sleep,Diet and Wellness Modules to make the style consistent by 11/20.
+
+- All Frontend Features Done by 11/27.
+
+- Finished the 1st version of  data collection design in firestore by Zhen Sun by 11/28, Yiwei Zha reviewed and  redesigned by 12/1.
+
+- The  backend logic design in water and wellness screen done by Yiwei Zha finished by 11/29 and the backend logic design Sleep and Diet screen done by Zhen Sun finished by 11/29.
+
+- Reorganized the structure to make it a MVC design pattern and made all the style of screens of waterIntake, Diet, Wellness, and sleeptime modules consistent by Yiwei Zha by11/30.
+
+- Complete the reminder and record backend functionality for the water module and record tutorial video for team by Yiwei Zha by 12/1.
+
+- Finished the reminder and record backend functionality for the water module by Zhen Sun by 12/2.
+
+- Finished the wellness backend logic by Yiwei Zha by 12/3.
+
+- Finished the period backend logic by Zhen Sun by 12/5.
+
+- Updated project board and organized project file by Makoya by 12/6.
+
+- Finalized the update in class diagram, SRS, wireframe, matrix and all the doc by Makoya, Zhen Sun and Yiwei Zha by 12/7.
+
+- Finalized, checked and polished the project by Yiwei Zha by 12/8.
