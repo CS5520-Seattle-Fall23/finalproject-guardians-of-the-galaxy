@@ -13,16 +13,9 @@ FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNo
 void main() async {
   
   WidgetsFlutterBinding.ensureInitialized();
-  tz.initializeTimeZones();
-  tz.setLocalLocation(tz.getLocation('America/Los_Angeles'));
-  final AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('assets/POSILIFE_Application_Logo.png'); // Replace 'app_icon' with your app icon
-  final InitializationSettings initializationSettings = InitializationSettings(
-    android: initializationSettingsAndroid,
-  );
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(MyApp(flutterLocalNotificationsPlugin: flutterLocalNotificationsPlugin));
+  runApp(const MyApp());
 }

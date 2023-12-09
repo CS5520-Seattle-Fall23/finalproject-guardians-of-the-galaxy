@@ -15,11 +15,11 @@ class AccountInfoPage extends StatefulWidget {
 
 class _AccountInfoPageState extends State<AccountInfoPage> {
   // Placeholder for user data
-  String userName = ""; // Fetch from Firebase
-  String userEmail = ""; // Fetch from Firebase
-  String userBirth = ""; // Fetch from Firebase
-  String userHeight = "None"; // Fetch from Firebase or default to 'None'
-  String userWeight = "None"; // Fetch from Firebase or default to 'None'
+  String userName = "None"; // Fetch from Firebase
+  String userEmail = "None"; // Fetch from Firebase
+  int userAge = 0; // Fetch from Firebase
+  int userHeight = 0; // Fetch from Firebase or default to 'None'
+  int userWeight = 0; // Fetch from Firebase or default to 'None'
   String cycleLength = "None"; // Fetch from Firebase or default to 'None'
   String periodLength = "None"; // Fetch from Firebase or default to 'None'
   String medicalConditions = "None"; // Fetch from Firebase or default to 'None'
@@ -55,11 +55,11 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
       Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
 
       setState(() {
-        userName = userData['UserName'] ?? '';
-        userEmail = userData['Email'] ?? '';
-        userBirth = userData['Birth'] ?? ''; // Make sure 'Birth' field exists in Firestore
-        userHeight = userData['Height'] ?? 'None';
-        userWeight = userData['Weight'] ?? 'None';
+        userName = userData['UserName'] ?? 'None'; 
+        userEmail = userData['Email'] ?? 'None';
+        userAge = userData['Age'] ?? 0;
+        userHeight = userData['Height'] ?? 0;
+        userWeight = userData['Weight'] ?? 0;
         cycleLength = userData['CycleLength'] ?? 'None';
         periodLength = userData['PeriodLength'] ?? 'None';
         medicalConditions = userData['MedicalCondition'] ?? 'None';
@@ -97,8 +97,8 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
             ),
             SizedBox(height: 20),
             _userInfoTile('User Name', userName),
-            _userInfoTile('User ID', userEmail),
-            _userInfoTile('Birth', userBirth),
+            _userInfoTile('User Email', userEmail),
+            _userInfoTile('Age', userAge),
             _userInfoTile('Height', userHeight),
             _userInfoTile('Weight', userWeight),
             _userInfoTile('Cycle Length', cycleLength),
@@ -135,29 +135,28 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
     ),
     );
   }
-
-  Widget _userInfoTile(String title, String data) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 2,
-            child: Text(
-              title,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
+Widget _userInfoTile(String title, dynamic data) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 8.0),
+    child: Row(
+      children: [
+        Expanded(
+          flex: 2,
+          child: Text(
+            title,
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
-          Expanded(
-            flex: 3,
-            child: Text(
-              data.isNotEmpty ? data : 'None',
-              style: TextStyle(fontSize: 16),
-            ),
+        ),
+        Expanded(
+          flex: 3,
+          child: Text(
+            data != null ? data.toString() : 'None',
+            style: TextStyle(fontSize: 16),
           ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}
 }
 
