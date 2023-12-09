@@ -39,7 +39,7 @@ class _DietIntakeCalendarScreenState extends State<DietIntakeCalendarScreen> {
       'color': Colors.grey,
     },
   ];
-
+  /// index of the selected tab
   int _selectedIndex = 0; // For bottom navigation bar
   void _onItemTapped(int index) {
     setState(() {
