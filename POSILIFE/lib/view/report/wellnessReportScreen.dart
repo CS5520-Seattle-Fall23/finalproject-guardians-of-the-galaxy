@@ -12,8 +12,6 @@ class WellnessReportScreen extends StatefulWidget {
 }
 
 class _WellnessReportScreenState extends State<WellnessReportScreen> {
-  final weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  final weightData = [60, 60.5, 59.8, 60.2, 60, 59.5, 60]; // Example data for weight
   int _selectedIndex = 2; // Assumed you have a bottom navigation with index
 
   void _onItemTapped(int index) {
@@ -35,69 +33,40 @@ class _WellnessReportScreenState extends State<WellnessReportScreen> {
         break;
     }
   }
-  @override
+ @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Wellness'),
-        backgroundColor: Colors.pink[200], // Adjust the color to match your design
+        title: Text('Wellness', style: TextStyle(color: Colors.white)),
+        backgroundColor: Colors.pink[200],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: BarChart(
-          BarChartData(
-            alignment: BarChartAlignment.spaceAround,
-            maxY: 70, // Assuming 70 kg is the upper limit for the chart
-            barTouchData: BarTouchData(
-              enabled: false,
-            ),
-            titlesData: FlTitlesData(
-              show: true,
-              bottomTitles: SideTitles(
-                showTitles: true,
-                getTextStyles: (context, value) => const TextStyle(color: Colors.black, fontSize: 14),
-                margin: 16,
-                getTitles: (double value) {
-                  return weekDays[value.toInt()];
-                },
-              ),
-              leftTitles: SideTitles(
-                showTitles: true,
-                getTextStyles: (context, value) => const TextStyle(color: Colors.black, fontSize: 14),
-                margin: 32,
-                reservedSize: 14,
-              ),
-            ),
-            gridData: FlGridData(
-              show: true,
-              checkToShowHorizontalLine: (value) => value % 10 == 0,
-              getDrawingHorizontalLine: (value) => FlLine(
-                color: Colors.black12,
-                strokeWidth: 1.0,
-              ),
-            ),
-            borderData: FlBorderData(
-              show: false,
-            ),
-            barGroups: weightData.asMap().entries.map((entry) {
-              return BarChartGroupData(
-                x: entry.key,
-                barRods: [
-                  BarChartRodData(
-                    y: entry.value.toDouble(),
-                    colors: [Colors.orange, Colors.pink],
-                  ),
-                ],
-              );
-            }).toList(),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Image
+          Image.asset(
+            'assets/wellnessReport.png',
+            fit: BoxFit.contain,
           ),
-        ),
+          // Back button
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ReportHomeScreen()));// Navigate back to the previous screen
+              },
+            ),
+          ),
+          // Your original bottom navigation bar
+          Expanded(
+            child: CustomBottomNavigationBar(
+              selectedIndex: _selectedIndex,
+              onItemTapped: _onItemTapped,
+            ),
+          ),
+        ],
       ),
-      // Bottom navigation bar can be added here if needed
-      bottomNavigationBar: CustomBottomNavigationBar(
-      selectedIndex: _selectedIndex,
-      onItemTapped: _onItemTapped,
-     ),
     );
   }
 }
