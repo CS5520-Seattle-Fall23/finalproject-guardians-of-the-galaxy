@@ -23,7 +23,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
             child: AnimatedContainer(
               duration: Duration(milliseconds: 300),
               height: kBottomNavigationBarHeight,
-              width: MediaQuery.of(context).size.width / 4,
+              width: MediaQuery.of(context).size.width / 4 - 20,
               decoration: BoxDecoration(
                 color: selectedIndex == index ? Colors.pink.shade200 : Colors.white,
                 borderRadius: BorderRadius.circular(25),

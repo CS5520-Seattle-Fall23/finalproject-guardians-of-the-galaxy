@@ -29,5 +29,9 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+         <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver"
+            android:exported="false"> <!-- or true, depending on the intended use -->
+            <!-- Add an intent filter here if needed -->
+        </receiver>
     </application>
 </manifest>

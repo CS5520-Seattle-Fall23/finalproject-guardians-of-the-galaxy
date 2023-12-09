@@ -28,6 +28,7 @@ Data Security: An inherent app feature that guarantees the privacy and safety of
 
 In recent years, the surging interest in personal health management has resulted in an abundance of health-tracking apps. However, many lack a holistic approach, often concentrating solely on data accumulation without providing actionable insights or motivation. The PosiLife app emerges as a beacon in this space, uniquely integrating health data tracking, user-specific goal setting, daily habit cultivation, and, most notably, positive reinforcement. Recognizing that consistent motivation is key to health improvement, PosiLife offers female users an interactive platform that not only monitors but also celebrates every step in their health journey. Through this comprehensive approach, the app addresses lifestyle-related health challenges and female-targeting features, ensuring that users remain engaged and inspired in their quest for better health.
 
+
 ## 2 Overall Description
 
 ### 2.1 User Characteristics:
@@ -68,7 +69,8 @@ As a user, I want my data to be stored securely and not vulnerable to breaches.
 
 ### 2.3 App Workflow (Flowchart):
 
-(Provide a visual representation of the app's workflow, including screens, user interactions, and data flow.)
+![flowchart](https://github.com/CS5520-Seattle-Fall23/finalproject-guardians-of-the-galaxy/assets/109750971/04c8f0b0-ad8b-4d10-b9ff-e38cc4eb0f2b)
+
 
 ## 3 Requirements:
 
@@ -160,7 +162,7 @@ Data Security:
 
 User data is stored securely and protected from breaches.
 
-3.2 Non-functional Requirements:
+### 3.2 Non-functional Requirements:
 
 Scalable Database:
 
@@ -208,22 +210,132 @@ Optimize the app's performance for varying network conditions.
 
 This software development specification outlines the key requirements and specifications for the development of the PosiLife Healthy Lifestyle Mobile App. These requirements will serve as the foundation for the development process, ensuring the successful creation of a user-friendly, motivating, and secure health management app.
 
-## 4 Wireframe
+
+## 4 App pain point and solution
+
+### 4.1 Summary of Pain Points
+
+The PosiLife app is an ambitious project that seeks to integrate various health metrics into a seamless user experience. The primary pain points identified in the backend design document revolve around real-time data synchronization, secure and efficient data processing, user experience consistency, and unit conversions across different health categories.
+
+### 4.2 Pain Point Analysis
+
+4.2.1 Data Structure and Retrieval:
+  
+- Complex Firestore Structure: The app's reliance on Firestore necessitates a well-organized database structure. This is challenging because it requires foresight into how data might scale and how users might interact with it. Poorly   structured data can lead to slow queries and higher costs.
+
+- User Authentication Integration: Integrating Firebase Authentication with Firestore is non-trivial. It must be done in a way that maintains security without sacrificing user convenience.
+  
+4.2.2 Real-Time Updates:
+
+  - Performance Risks: Implementing listeners for real-time updates could potentially lead to performance issues, especially with a growing number of users. Efficient data fetching strategies and judicious use of listeners are crucial.
+
+4.2.3 Data Processing and Functionality:
+
+- Handling Incomplete Data: Users may not always input data consistently. The app must handle this gracefully, ensuring that incomplete data doesn't lead to a poor user experience or incorrect health advice.
+  
+- Concurrency in Updates: The ability to handle multiple concurrent updates without losing data integrity or causing user conflicts is important, particularly for features like water intake records.
+  
+4.2.4 User Experience Consistency:
+
+- Unit Conversions and Preferences: Given that the app deals with various units of measurement, ensuring accurate conversions and respecting user preferences across all screens is essential for a consistent user experience.
+  
+- Calendar Integration: The calendar feature must be intuitive and user-friendly. Displaying historical data in an easy-to-understand format without cluttering the UI is a design challenge.
+
+4.2.5 Scalability and Future Growth:
+- Growth Management: As the user base grows, the backend must scale accordingly. This includes scaling the database structure, optimizing query performance, and ensuring that the real-time update system remains efficient.
+
+### 4.3 Pain Point Solution
+
+4.3.1 User Data Storage and Retrieval
+
+(1)Firestore Structure Design
+Designing an optimal document and collection structure to ensure efficient queries and updates.
+
+(2)User Authentication
+Leveraging Firebase Authentication for secure password handling and integrating it with Firestore for user data management.
+
+4.3.2 Real-Time Data Syncing
+
+(1)Firestore Real-time Updates
+Implementing listeners for real-time data synchronization while managing potential performance bottlenecks.
+
+4.3.3 Data Processing and Functionality Implementation
+
+(1)HomeScreen Data Retrieval
+Ensuring efficient fetching and rendering of user's name from Firestore on the HomeScreen.
+
+(2)Water Intake Functionality
+Display Water Intake and Goals: Accurately fetching and displaying daily water intake and goals, handling the possibility of missing or incomplete data.
+Water Intake Record Management: Securely updating user's water intake records and handling potential concurrent updates.
+
+(3)Reminder Setup
+Setting up reliable reminders for water intake, considering various user time zones and preferences.
+
+(4)Calendar Integration
+Integrating a user-friendly calendar to display water intake history and status.
+
+4.3.4 Diet Management
+
+(1)Diet Intake Tracking
+Accurate tracking and representation of diet intake and goals, with a focus on user experience and data accuracy.
+
+(2)Diet Record and Reminder Management
+Securely updating diet records and managing diet reminders for users, taking into account user-specific settings.
+
+4.3.5 Sleep Tracking
+(1)Sleep Data Retrieval
+Fetching and displaying sleep time accurately, considering user's timezone and preferences.
+
+(2)Sleep Record Management
+Efficiently updating sleep records and managing reminders, ensuring a smooth user experience.
+
+4.3.6 Wellness Management
+
+(1)Weight Data Processing
+Accurate retrieval and display of weight data, including unit conversions and historical data comparison.
+
+(2)Weight Record and Reminder Management
+Ensuring secure updates to weight records and managing wellness reminders effectively.
+
+
+## 5 Accessibility
+
+5.1 Handling Unit Conversions
+
+- Implementing accurate and efficient unit conversion functions for water (mlToOz), diet (convertUnitsInDiet), and weight (kgToLb) to cater to users' diverse health habits.
+
+5.2 Cognitive Accessibility
+
+- Clear Instructions and Labels: Use simple and clear language with an intuitive interface design.
+  
+- Consistent Layout and Navigation: Maintain consistency in interface elements and navigation to reduce cognitive load for users and respect users’ preference
+  
+5.3 Simplified Interactions
+
+- Reduce operations that require fine motor control, such as avoiding too small click targets.
+
+5.4 Color Contrast and Usage:
+
+- Use high-contrast color combinations to ensure that users with color blindness or limited vision can distinguish elements.
+
+
+## 6 Wireframe
 
 https://cdn-uploads.piazza.com/paste/l7sdfz0jelj3fa/a2d583342cdd1b2b2ae8949734fabc86a7e6e122ba55c5f2f6c64ca40fedaa08/posilife.pdf
 
-## 5 UML Class Diagram 
+## 7 UML Class Diagram 
 
-![UML Class Diagram](image.png)
-
-https://www.mermaidchart.com/app/projects/9f0218a4-17e6-4865-8737-10a6b357de27/diagrams/a6f46a8c-aed6-41e3-ad30-57fdbd1e8e17/version/v0.1/edit
+![classDiagram_dec](https://github.com/CS5520-Seattle-Fall23/finalproject-guardians-of-the-galaxy/assets/109750971/f9dbbe3d-8e07-4378-a33c-321cf35c2857)
 
 
-## 6 Gantt Diagram
+https://www.mermaidchart.com/app/projects/bf810f01-1cb7-4daa-b08b-b9954629bffe/diagrams/c4189db9-ca16-4b99-8b9b-52c1bf893bcf/version/v0.1/edit
 
-![Gantt Diagram](image-1.png)
+## 8 Gantt Diagram
 
-## 7 Traceability Matrix
+![GanttChat_Dec](https://github.com/CS5520-Seattle-Fall23/finalproject-guardians-of-the-galaxy/assets/109750971/8825d0fe-2e95-4bae-a9fc-b7be0e2f3b48)
+
+
+## 9 Traceability Matrix
 
 | ID | Ass.ID | Requirements Description | Justification | Project Objective | Priority | Test Cases |
 |----|--------|--------------------------|---------------|-------------------|----------|------------|
@@ -232,10 +344,22 @@ https://www.mermaidchart.com/app/projects/9f0218a4-17e6-4865-8737-10a6b357de27/d
 | 2  | 2.1    | Password Management      | Allow users to reset and change passwords | Account Security | Medium | TC-04 |
 | 3  | 3.1    | Account Creation         | Streamline account setup process | User Experience | Medium | TC-05 |
 | 4  | 4.1    | Water Intake Tracking    | Help users monitor hydration | Health Tracking | High | TC-06 |
-| 5  | 5.1    | Sleep Time Tracking      | Enable tracking of sleep patterns | Health Tracking | High | TC-07 |
-| 6  | 6.1    | Diet Tracking            | Assist users in managing caloric intake | Health Tracking | High | TC-08 |
-| 7  | 7.1    | Wellness Tracking        | Assist users tracking weights | Health Tracking | High | TC-09 |
-| 8  | 8.1    | Generate Health Report   | Provide users with health trend insights | Data Analysis | High | TC-10, TC-11, TC-12, TC-13 |
-| 9  | 9.1    | Menstrual Cycle Tracking | Help users tracking period cycles | Health Tracking | High | TC-14 |
-| 10 | 10.1   | Notification System      | Inform users of reminders | User Engagement | High | TC-15 |
-| 11 | 11.1   | Data Security            | Ensure user data is protected | Security | High | TC-16 |
+| 4  | 4.2    | Water Intake Goal Set    | Enable users to set daily water intake goals | Health Tracking | High | TC-07 |
+| 4  | 4.3    | Water Intake Calendar    | Provide a visual representation of users' hydration over time | Health Tracking | Medium | TC-08 |
+| 4  | 4.4    | Water Intake Report      | Generate reports on water intake for users | Data Analysis |  Low | TC-09 |
+| 5  | 5.1    | Sleep Time Tracking      | Enable tracking of sleep patterns | Health Tracking | High | TC-10 |
+| 5  | 5.2    | Sleep Time Goal Set      | Allow users to set sleep duration goals | Health Tracking | High | TC-11 |
+| 5  | 5.3    | Sleep Time Calendar      | Provide a visual representation of users' sleep time | Health Tracking | Medium | TC-11 |
+| 5  | 5.4    | Sleep Time Report        | Generate reports on sleep time for users  | Data Analysis | Low | TC-12 |
+| 6  | 6.1    | Diet Tracking            | Assist users in managing caloric intake | Health Tracking | High | TC-13 |
+| 6  | 6.1    | Diet Goal Set            | Facilitate users in setting dietary goals | Health Tracking | High | TC-14|
+| 6  | 6.1    | Diet Calendar            | Create a daily log of dietary intake | Health Tracking | Medium | TC-15 |
+| 6  | 6.1    | Diet Report              | Provide a visual representation of users' sleep time | Data Analysis| Low | TC-16 |
+| 7  | 7.1    | Wellness Tracking        | Assist users tracking weights | Health Tracking | High | TC-17 |
+| 7  | 7.2    | Wellness Calculation     | Compute BMI and BMR for users | Data Analysis | Medium | TC-18 |
+| 7  | 7.3    | Wellness Comparison      | Compare user's weight with last | record Data Analysis| High | TC-19 |
+| 8  | 8.1    | Generate Health Report   | Provide users with health trend insights | Data Analysis | High | TC-20, TC-21, TC-22, TC-23 |
+| 9  | 9.1    | Menstrual Cycle Tracking | Help users tracking period cycles | Health Tracking | High | TC-24 |
+| 9  | 9.2    | Period Cycle Set         | Allow users to track menstrual cycles | Health Tracking | High | TC-25 |
+| 10 | 10.1   | Notification System      | Inform users of reminders | User Engagement | Medium | TC-26 |
+| 11 | 11.1   | Data Security            | Ensure user data is protected | Security | High | TC-27 |

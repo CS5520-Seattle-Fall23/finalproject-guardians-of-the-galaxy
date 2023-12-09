@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class WeightComparisonScreen extends StatefulWidget {
   @override
@@ -6,10 +8,55 @@ class WeightComparisonScreen extends StatefulWidget {
 }
 
 class _WeightComparisonScreenState extends State<WeightComparisonScreen> {
-  bool isKg = true; // State variable to track unit toggle for weight
+  double currentWeight = 0.0;
+  double lastWeight = 0.0;
+  double height = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData();
+  }
+
+void _fetchUserData() async {
+  String userId = FirebaseAuth.instance.currentUser!.uid;
+  try {
+    DocumentSnapshot wellnessDoc = await FirebaseFirestore.instance.collection('Wellness').doc(userId).get();
+    if (wellnessDoc.exists) {
+      Map<String, dynamic> wellnessData = wellnessDoc.data() as Map<String, dynamic>;
+      setState(() {
+        currentWeight = _toDouble(wellnessData['Weight']);
+        lastWeight = _toDouble(wellnessData['lastWeight']);
+        height = _toDouble(wellnessData['Height']);
+      });
+    }
+  } catch (e) {
+    print('Error fetching user data: $e');
+  }
+}
+
+double _toDouble(dynamic value) {
+  if (value is int) {
+    return value.toDouble();
+  } else if (value is String) {
+    return double.tryParse(value) ?? 0.0;
+  } else {
+    return value ?? 0.0;
+  }
+}
+
+
+  double calculateBMI(double weight, double height) {
+    return weight / ((height / 100) * (height / 100));
+  }
 
   @override
   Widget build(BuildContext context) {
+    double weightDifference = currentWeight - lastWeight;
+    double currentBMI = calculateBMI(currentWeight, height);
+    double lastBMI = calculateBMI(lastWeight, height);
+    double bmiDifference = currentBMI - lastBMI;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Last Record'),
@@ -30,7 +77,7 @@ class _WeightComparisonScreenState extends State<WeightComparisonScreen> {
             radius: 60,
             backgroundColor: Colors.pink.shade200,
             child: Text(
-              '51.0 Kg',
+              '${currentWeight.toStringAsFixed(1)} ${'Kg'}',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
             ),
           ),
@@ -49,7 +96,7 @@ class _WeightComparisonScreenState extends State<WeightComparisonScreen> {
                     ),
                     SizedBox(height: 8),
                     Text(
-                      '+0.7Kg',
+                     '${weightDifference >= 0 ? '+' : ''}${weightDifference.toStringAsFixed(1)} Kg',
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -62,7 +109,7 @@ class _WeightComparisonScreenState extends State<WeightComparisonScreen> {
                     ),
                     SizedBox(height: 8),
                     Text(
-                      '+0.3',
+                     '${bmiDifference >= 0 ? '+' : ''}${bmiDifference.toStringAsFixed(1)}',
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -70,42 +117,11 @@ class _WeightComparisonScreenState extends State<WeightComparisonScreen> {
               ],
             ),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'Ibs',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: isKg ? Colors.grey : Colors.black,
-                  ),
-                ),
-                Switch(
-                  value: isKg,
-                  onChanged: (value) {
-                    setState(() {
-                      isKg = value;
-                      // TODO: Implement unit conversion if needed
-                    });
-                  },
-                  activeTrackColor: Colors.pink.shade200,
-                  activeColor: Colors.pink,
-                ),
-                Text(
-                  'Kg',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: isKg ? Colors.black : Colors.grey,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // Remove the unit toggle switch as the unit conversion feature is not implemented
           // You can add the bottom navigation bar if needed
         ],
       ),
     );
   }
 }
+
