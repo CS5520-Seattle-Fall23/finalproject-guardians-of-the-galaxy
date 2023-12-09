@@ -321,7 +321,7 @@ Ensuring secure updates to weight records and managing wellness reminders effect
 
 ## 6 Wireframe
 
-https://cdn-uploads.piazza.com/paste/l7sdfz0jelj3fa/a2d583342cdd1b2b2ae8949734fabc86a7e6e122ba55c5f2f6c64ca40fedaa08/posilife.pdf
+https://www.figma.com/file/IsqiHW9wOqp7rV9W8Is3L1/PosiLife?type=design&node-id=0%3A1&mode=design&t=zeqIKPNi0dxjL560-1
 
 ## 7 UML Class Diagram 
 
