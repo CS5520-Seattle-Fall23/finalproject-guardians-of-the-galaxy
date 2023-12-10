@@ -164,7 +164,7 @@ class _DietIntakeGoalScreenState extends State<DietIntakeGoalScreen> {
                   'Kcal',
                   style: TextStyle(
                     fontSize: 16,
-                    color: isKJ ? Colors.black : Colors.grey,
+                    color: isKJ ? Colors.grey : Colors.black,
                   ),
                 ),
                 Switch(
@@ -180,7 +180,7 @@ class _DietIntakeGoalScreenState extends State<DietIntakeGoalScreen> {
                   'KJ',
                   style: TextStyle(
                     fontSize: 16,
-                    color: isKJ ? Colors.grey : Colors.black,
+                    color: isKJ ? Colors.black : Colors.grey,
                   ),
                 ),
               ],
