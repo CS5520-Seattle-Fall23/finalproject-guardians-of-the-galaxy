@@ -48,6 +48,8 @@ class _SleepTimeRecordScreenState extends State<SleepTimeRecordScreen> {
       //Clear the input field after submitting
       _sleepTimeController.clear();
 
+      Navigator.push(context, MaterialPageRoute(builder: (context) => SleepTimeScreen()));
+
       //Show confirmation message
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Sleep time of $sleepTime h recorded.'),
