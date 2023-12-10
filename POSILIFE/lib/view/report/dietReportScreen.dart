@@ -35,69 +35,40 @@ class _DietReportScreenState extends State<DietReportScreen> {
         break;
     }
   }
-  @override
+@override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Diet'),
-        backgroundColor: Colors.pink[200], // Adjust the color to match your design
+        title: Text('Diet', style: TextStyle(color: Colors.white)),
+        backgroundColor: Colors.pink[200],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: BarChart(
-          BarChartData(
-            alignment: BarChartAlignment.spaceAround,
-            maxY: 2500, // Assuming 2500 kcal is the upper limit for the chart
-            barTouchData: BarTouchData(
-              enabled: false,
-            ),
-            titlesData: FlTitlesData(
-              show: true,
-              bottomTitles: SideTitles(
-                showTitles: true,
-                getTextStyles: (context, value) => const TextStyle(color: Colors.black, fontSize: 14),
-                margin: 16,
-                getTitles: (double value) {
-                  return weekDays[value.toInt()];
-                },
-              ),
-              leftTitles: SideTitles(
-                showTitles: true,
-                getTextStyles: (context, value) => const TextStyle(color: Colors.black, fontSize: 14),
-                margin: 32,
-                reservedSize: 14,
-              ),
-            ),
-            gridData: FlGridData(
-              show: true,
-              checkToShowHorizontalLine: (value) => value % 500 == 0,
-              getDrawingHorizontalLine: (value) => FlLine(
-                color: Colors.black12,
-                strokeWidth: 1.0,
-              ),
-            ),
-            borderData: FlBorderData(
-              show: false,
-            ),
-            barGroups: calorieData.asMap().entries.map((entry) {
-              return BarChartGroupData(
-                x: entry.key,
-                barRods: [
-                  BarChartRodData(
-                    y: entry.value.toDouble(),
-                    colors: [Colors.lightBlueAccent, Colors.greenAccent],
-                  ),
-                ],
-              );
-            }).toList(),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Image
+          Image.asset(
+            'assets/dietReport.png',
+            fit: BoxFit.contain,
           ),
-        ),
+          // Back button
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ReportHomeScreen()));// Navigate back to the previous screen
+              },
+            ),
+          ),
+          // Your original bottom navigation bar
+          Expanded(
+            child: CustomBottomNavigationBar(
+              selectedIndex: _selectedIndex,
+              onItemTapped: _onItemTapped,
+            ),
+          ),
+        ],
       ),
-      // Bottom navigation bar can be added here if needed
-      bottomNavigationBar: CustomBottomNavigationBar(
-      selectedIndex: _selectedIndex,
-      onItemTapped: _onItemTapped,
-     ),
     );
   }
 }
