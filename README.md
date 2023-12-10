@@ -413,13 +413,15 @@ https://www.mermaidchart.com/app/projects/bf810f01-1cb7-4daa-b08b-b9954629bffe/d
 
 - Complete the reminder and record backend functionality for the water module and record tutorial video for team by Yiwei Zha by 12/1.
 
-- Finished the reminder and record backend functionality for the water module by Zhen Sun by 12/2.
+- Finished the reminder and record backend functionality for the sleep and diet module by Zhen Sun by 12/2.
 
 - Finished the wellness backend logic by Yiwei Zha by 12/3.
 
 - Finished the period backend logic by Zhen Sun by 12/5.
 
 - Updated project board and organized project file by Makoya by 12/6.
+- 
+- Polished the backend logic in user account by Yiwei Zha by 12/6.
 
 - Finalized the update in class diagram, SRS, wireframe, matrix and all the doc by Makoya, Zhen Sun and Yiwei Zha by 12/7.
 
