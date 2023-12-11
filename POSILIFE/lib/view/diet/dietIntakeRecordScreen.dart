@@ -58,6 +58,8 @@ class _DietIntakeRecordScreenState extends State<DietIntakeRecordScreen> {
       //Clear the input field after submitting
       _calorieAmountController.clear();
 
+      Navigator.push(context, MaterialPageRoute(builder: (context) => DietIntakeScreen()));
+
       //Show confirmation message
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Calories inkate of $calorieIntake $unit recorded.'),
@@ -151,7 +153,7 @@ class _DietIntakeRecordScreenState extends State<DietIntakeRecordScreen> {
                   'Kcal',
                   style: TextStyle(
                     fontSize: 16,
-                    color: isKJ ? Colors.black : Colors.grey,
+                    color: isKJ ? Colors.grey : Colors.black,
                   ),
                 ),
                 Switch(
@@ -168,7 +170,7 @@ class _DietIntakeRecordScreenState extends State<DietIntakeRecordScreen> {
                     'kJ',
                     style: TextStyle(
                       fontSize: 16,
-                      color: isKJ ? Colors.grey : Colors.black,
+                      color: isKJ ? Colors.black : Colors.grey,
                     ),
                   ),
               ],
