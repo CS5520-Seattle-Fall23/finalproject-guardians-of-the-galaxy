@@ -1,0 +1,116 @@
+classDiagram
+    User "1" --> "1" Account : Has
+    
+    User <|-- Account: Inherits
+    TrackingFactory "1" --> "1" Reminders : Uses
+    TrackingFactory <|.. WaterTracking : Inherits
+    TrackingFactory <|.. SleepTracking : Inherits
+    TrackingFactory <|.. DietTracking : Inherits
+    TrackingFactory <|.. WellnessTracking : Inherits
+    AccountFactory "1" --> "1" TrackingFactory : Uses
+    AccountFactory "1" --> "1" CycleRecord : Views
+    AccountFactory "1" --> "1" HealthTrendingReport : Views
+    Account <|-- AccountFactory : Uses
+
+    class User {
+        +int userID
+        +String emailAddress
+        +String userName
+        +String password
+        +int weight
+        +double height
+        +int age
+        +String cycleLength
+        +String periodLength
+
+        +getUserId() int
+        +getemailAddress() String
+        +getuserName() String
+        +getPassword() String
+        +getWeight() int
+        +getHeight() double
+        +getAge() int
+        +getcycleLength() String
+        +getperiodLength() String
+        +setUserId() int
+        +setemailAddress() String
+        +setuserName() String
+        +setPassword() String
+        +setWeight() int
+        +setHeight() double
+        +setAge() int
+        +setcycleLength() String
+        +setperiodLength() String
+
+    }
+    class Account {
+        +verifyPassword() bool
+        +changePassword() void
+    }
+    class TrackingFactory {
+        <<Interface>>
+        +date todayDate
+        +createTracking() Tracking
+        +createReminder() Reminders
+    }
+    class AccountFactory {
+        <<Abstract>>
+        +createTracking() Tracking
+        +createReport() HealthTrendingReport
+        +createCycleRecord() CycleRecord
+    }
+    class Reminders {
+        +String reminderType (e.g., Period, Water, Sleep, etc.)
+        +String time
+        +calcReminderFrequency(time): bool
+        +stopReminder(): void
+    }
+    class HealthTrendingReport {
+        +String reportType
+        +generateReport()
+    }
+    class WaterTracking {
+        +Map<date,<String,String>> waterIntakeRecord
+        +String todayWaterIntake
+        +String todayWaterGoal
+        +updateTodayWaterIntake(todayWaterIntake):String
+        +changeUnitOztoMl(todayWaterIntake):String
+        +goalProgress(todayWaterIntake,todayGoal):String
+        +ifGoalAchieved(todayWaterIntake,todayGoal):bool
+        +storeWaterIntake(waterIntakeRecord,todayWaterGoal,todayWaterIntake,todayDate): void
+    }
+    class SleepTracking {
+        +Map<date,<String,String>> sleepTimeRecord
+        +String todaySleepTime
+        +String todaySleepGoal
+        +updateTodaySleepTime(todaySleepTime):String
+        +goalProgress(todaySleepTime,todaySleepGoal):String //eg:"75%"
+        +ifGoalAchieved(todaySleepTime,todaySleepGoal):bool
+        +storeSleepTime(SleepTimeRecord,todaySleepGoal,todaySleepTime,todayDate): void
+    }
+    class DietTracking {
+        +Map<date,<String,String>> caloriesIntakeRecord
+        +String todayCaloriesIntake
+        +String todayCaloriesGoal
+        +updateTodaySleepTime(todayCaloriesIntake):String
+        +goalProgress(todayCaloriesIntake,todayCaloriesGoal):String //eg:"75%"
+        +ifGoalAchieved(todayCaloriesIntake,todayCaloriesGoal):bool
+        +storeSleepTime(caloriesIntakeRecord,todayCaloriesGoal,todayCaloriesIntake,todayDate): void
+    }
+    class WellnessTracking {
+        +Map<date,List<dynamic>> WellnessRecord
+        +double bodyMassIndex
+        +String basicMetabolismRate
+        +String todayWeight
+        +updateTodayWeight(todayWeight):String
+        +calcbodyMassIndex(todayWeight,User.height):double
+        +calcbasicMetabolismRate(todayWeight,User.height,User.age):String
+        +storeWellness(WellnessRecord,todayWeight,bodyMassIndex,basicMetabolismRate,date): void
+    }
+    class CycleRecord {
+        +String cycleInterval
+        +String periodLength
+        +Map<date,<String,String>> CycleStore
+        +calcAverageCycleInterval(CycleStore,cycleInterval):String
+        +calcAveragePeriodLength(CycleStore,periodLength):String
+    }
